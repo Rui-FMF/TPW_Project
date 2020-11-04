@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <form>
+        <div class="form-group row">
+            <label for="inputName" class="col-sm-2 col-form-label">*Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputName" placeholder="Name">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputEnterprise" class="col-sm-2 col-form-label">*Enterprise</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEnterprise" placeholder="Enterprise">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputPlatform" class="col-sm-2 col-form-label">*Platform</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPlatform" placeholder="Platform">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputGenre" class="col-sm-2 col-form-label">*Genre</label>
+            <div class="col-sm-10">
+                <select class="custom-select" id="inputGenre">
+                    <option selected>-</option>
+                    <option value="1">Action</option>
+                    <option value="2">Action-adventure</option>
+                    <option value="3">Adventure</option>
+                    <option value="4">MMO</option>
+                    <option value="5">Role-playing</option>
+                    <option value="6">Simulation</option>
+                    <option value="7">Strategy</option>
+                    <option value="8">Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputCondition" class="col-sm-2 col-form-label">*Condition</label>
+            <div class="col-sm-10">
+                <select class="custom-select" id="inputCondition">
+                    <option selected>-</option>
+                    <option value="1">New</option>
+                    <option value="2">Open Box</option>
+                    <option value="3">Used</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="inputPhoto" class="col-sm-2 col-form-label">Photos</label>
+            <div class="col-sm-10">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputPhoto">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label for="inputCost" class="col-sm-2 col-form-label">Cost</label>
+            <div class="col-sm-10">
+                <input type="number" min="0.00" step="0.01" class="form-control" id="inputCost" placeholder="0.00">
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Add Game</button>
+            </div>
+        </div>
+
+
+    </form>
+
+
+{% endblock %}
