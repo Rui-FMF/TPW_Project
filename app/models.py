@@ -4,6 +4,8 @@ from django.db import models
 
 
 class User(models.Model):
+    first_name = models.CharField(max_length=70)
+    last_name = models.CharField(max_length=70)
     username = models.CharField(max_length=70)
     password = models.CharField(max_length=70)
     email = models.EmailField()
@@ -15,9 +17,25 @@ class User(models.Model):
 class Article(models.Model):
     name = models.CharField(max_length=70)
     total_price = models.DecimalField(max_digits=None, decimal_places=2)
-    Shipping = models.DecimalField(max_digits=None, decimal_places=2, default=0.00)
-    Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery
-    # payment types?
+    ShippingFee = models.DecimalField(max_digits=None, decimal_places=2, default=0.00)
+    Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery along with duration
+
+    ONE = 1
+    THREE = 3
+    FIVE = 5
+    TEN = 10
+    DURATION_CHOICES = [
+        (ONE, 1),
+        (THREE, 3),
+        (FIVE, 5),
+        (TEN, 10),
+    ]
+
+    duration = models.IntegerField(
+        choices=DURATION_CHOICES,
+        default=TEN,
+    )
+
     Is_sold = models.BooleanField(default=False)
     times_viewed = models.IntegerField()
 
@@ -60,8 +78,8 @@ class Item(models.Model):
 class Game(Item):
     release_year = models.DecimalField(max_digits=5, decimal_places=None)
     publisher = models.CharField(max_length=70)
-    genre = models.CharField(max_length=70)     # meter choices
-    platform = models.CharField(max_length=70)  # meter choices
+    genre = models.CharField(max_length=70)
+    platform = models.CharField(max_length=70)
 
     EVERYONE = 'E'
     TEEN = 'T'
@@ -77,6 +95,24 @@ class Game(Item):
         max_length=1,
         choices=RATING_CHOICES,
         default=EVERYONE,
+    )
+
+    PS4 = 'PS'
+    XBOX1 = 'XB'
+    SWITCH = 'SW'
+    PC = 'PC'
+    OTHER = 'OT'
+    PLATFORM_CHOICES = [
+        (PS4, 'Playstation 4'),
+        (XBOX1, 'Xbox One'),
+        (SWITCH, 'Nintendo Switch'),
+        (PC, 'Computer'),
+        (OTHER, 'Other'),
+    ]
+    platform = models.CharField(
+        max_length=2,
+        choices=PLATFORM_CHOICES,
+        default=OTHER,
     )
 
     def __str__(self):
