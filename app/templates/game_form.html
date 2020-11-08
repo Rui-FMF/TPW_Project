@@ -19,7 +19,17 @@
         <div class="form-group row">
             <label for="inputPlatform" class="col-sm-2 col-form-label">*Platform</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPlatform" placeholder="Platform">
+                <select class="custom-select" id="inputPlatform">
+                    <option selected>-</option>
+                    <option value="1">Action</option>
+                    <option value="2">Action-adventure</option>
+                    <option value="3">Adventure</option>
+                    <option value="4">MMO</option>
+                    <option value="5">Role-playing</option>
+                    <option value="6">Simulation</option>
+                    <option value="7">Strategy</option>
+                    <option value="8">Other</option>
+                </select>
             </div>
         </div>
 
@@ -45,9 +55,11 @@
             <div class="col-sm-10">
                 <select class="custom-select" id="inputCondition">
                     <option selected>-</option>
-                    <option value="1">New</option>
-                    <option value="2">Open Box</option>
-                    <option value="3">Used</option>
+                    <option value="1">Brand New</option>
+                    <option value="2">Like New</option>
+                    <option value="3">Very Good</option>
+                    <option value="3">Good</option>
+                    <option value="3">Acceptable</option>
                 </select>
             </div>
         </div>
