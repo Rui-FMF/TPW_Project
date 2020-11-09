@@ -1,8 +1,8 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
-
+"""
 class User(models.Model):
     first_name = models.CharField(max_length=70)
     last_name = models.CharField(max_length=70)
@@ -12,12 +12,13 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+"""
 
 
 class Article(models.Model):
     name = models.CharField(max_length=70)
-    total_price = models.DecimalField(max_digits=None, decimal_places=2)
-    ShippingFee = models.DecimalField(max_digits=None, decimal_places=2, default=0.00)
+    total_price = models.DecimalField(max_digits=10000000000, decimal_places=2)
+    ShippingFee = models.DecimalField(max_digits=10000000000, decimal_places=2, default=0.00)
     Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery along with duration
 
     ONE = 1
@@ -39,16 +40,15 @@ class Article(models.Model):
     Is_sold = models.BooleanField(default=False)
     times_viewed = models.IntegerField()
 
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Articles_posted")
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, default=None, related_name="Articles_bought")
 
     def __str__(self):
         return self.name
 
 
 class Item(models.Model):
-    id = models.AutoField()
-    price = models.DecimalField(max_digits=None, decimal_places=2)
+    price = models.DecimalField(max_digits=10000000000, decimal_places=2)
     name = models.CharField(max_length=70)
 
     BRAND_NEW = 'B'
@@ -76,7 +76,7 @@ class Item(models.Model):
 
 
 class Game(Item):
-    release_year = models.DecimalField(max_digits=5, decimal_places=None)
+    release_year = models.DecimalField(max_digits=5, decimal_places=0)
     publisher = models.CharField(max_length=70)
     genre = models.CharField(max_length=70)
     platform = models.CharField(max_length=70)
