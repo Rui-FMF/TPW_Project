@@ -43,10 +43,10 @@ def create_article(request):
         form = ArticleForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            shippingfee = form.cleaned_data['ShippingFee']
-            shippingtime = form.cleaned_data['ShippingTime']
-            a = Article.objects.get(name=request.user.id)
-            a2 = Article(name=name, ShippingFee=shippingfee, ShippingTime=shippingtime, seller=request.user,
+            shipping_fee = form.cleaned_data['shipping_fee']
+            shipping_time = form.cleaned_data['shipping_time']
+            a = Article.objects.get(name=request.user.id)   # TODO: tirar opcao de sell article fora de autenticacao
+            a2 = Article(name=name, ShippingFee=shipping_fee, ShippingTime=shipping_time, seller=request.user,
                          times_viewed=0)
             a2.save()
             total_price = 0

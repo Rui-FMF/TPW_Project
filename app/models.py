@@ -17,23 +17,23 @@ class User(models.Model):
 
 class Article(models.Model):
     name = models.CharField(max_length=70)
-    total_price = models.DecimalField(max_digits=10000000000, decimal_places=2, default=0.00)
-    ShippingFee = models.DecimalField(max_digits=10000000000, decimal_places=2, default=0.00)
+    total_price = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    ShippingFee = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery along with duration
 
     ONE = 1
     THREE = 3
     FIVE = 5
     TEN = 10
-    SHIPPINGTIME_CHOICES = [
-        (ONE, 1),
-        (THREE, 3),
-        (FIVE, 5),
-        (TEN, 10),
+    SHIPPING_TIME_CHOICES = [
+        (ONE, '1 day'),
+        (THREE, '3 days'),
+        (FIVE, '5 days'),
+        (TEN, '10 days'),
     ]
 
     ShippingTime = models.IntegerField(
-        choices=SHIPPINGTIME_CHOICES,
+        choices=SHIPPING_TIME_CHOICES,
         default=TEN,
     )
 
@@ -48,7 +48,7 @@ class Article(models.Model):
 
 
 class Item(models.Model):
-    price = models.DecimalField(max_digits=10000000000, decimal_places=2)
+    price = models.DecimalField(max_digits=13, decimal_places=2)
     name = models.CharField(max_length=70)
 
     BRAND_NEW = 'B'
@@ -116,4 +116,17 @@ class Game(Item):
 
     def __str__(self):
         return self.name
+
+
+class Platform(models.Model):
+    ...
+
+
+class Company(models.Model):
+    ...
+
+
+class Franchise(models.Model):
+    ...
+
 

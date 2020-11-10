@@ -28,8 +28,6 @@ urlpatterns = [
 
     path('signup/', views.signup, name='signup'),
 
-    # path('signup/', auth_views.Sign.as_view(template_name='login.html'), name='login'),
-
     path('articles/', views.articles, name='articles'),
     path('articles/<int:article_id>/', views.article_details, name='article_details'),
 
