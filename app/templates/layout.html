@@ -2,43 +2,134 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ title }}</title>
 
+    <!-- START: Styles -->
     {% load static %}
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet"
+          type="text/css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/dist/css/bootstrap.min.css' %}">
+
+    <!-- FontAwesome -->
+    <script defer src="{% static 'assets/vendor/fontawesome-free/js/all.js' %}"></script>
+    <script defer src="{% static 'assets/vendor/fontawesome-free/js/v4-shims.js' %}"></script>
+
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/ionicons/css/ionicons.min.css' %}">
+
+    <!-- Flickity -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/flickity/dist/flickity.min.css' %}">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/photoswipe/dist/photoswipe.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'assets/vendor/photoswipe/dist/default-skin/default-skin.css' %}">
+
+    <!-- Seiyria Bootstrap Slider -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css' %}">
+
+    <!-- Summernote -->
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/summernote/dist/summernote-bs4.css' %}">
+
+    <!-- GoodGames -->
+    <link rel="stylesheet" href="{% static 'assets/css/goodgames.css' %}">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+
+    <!-- END: Styles -->
+
+    <!-- jQuery -->
+    <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">Brand</a>
-    <div class="collapse navbar-collapse" id="navbarDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'articles' %}">Game Articles</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'shop_cart' %}">
-                    Shopping Cart <span class="badge badge-success badge-pill">0</span>
+
+
+<header class="nk-header nk-header-opaque">
+    <!--
+        START: Navbar
+
+        Additional Classes:
+            .nk-navbar-sticky
+            .nk-navbar-transparent
+            .nk-navbar-autohide
+    -->
+    <nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
+        <div class="container">
+            <div class="nk-nav-table">
+                <a href="{% url 'home' %}" class="nk-nav-logo">
+                    <img src="{% static 'assets/images/logo.png' %}" alt="GoodGames" width="199">
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'create_article' %}">Sell Article</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Help</a>
-            </li>
-        </ul>
+                <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
+                    <li>
+                        <a href="{% url 'shop_cart' %}">Shop Cart <span class="badge badge-danger badge-pill">2</span></a>
+                    </li>
+                    <li class=" nk-drop-item">
+                        <a href="{% url 'articles' %}">Articles</a>
+                        <ul class="dropdown">
+                            <li>
+                                <a href="#">Games</a>
+                            </li>
+                            <li>
+                                <a href="#">Consoles</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    {% include 'login_partial.html' %}
+
+                </ul>
+                <ul class="nk-nav nk-nav-right nk-nav-icons">
+                    <li class="single-icon d-lg-none">
+                        <a href="#" class="no-link-effect" data-nav-toggle="#nk-nav-mobile">
+                            <span class="nk-icon-burger">
+                                <span class="nk-t-1"></span>
+                                <span class="nk-t-2"></span>
+                                <span class="nk-t-3"></span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END: Navbar -->
+
+</header>
+
+
+<!--
+START: Navbar Mobile
+
+Additional Classes:
+.nk-navbar-left-side
+.nk-navbar-right-side
+.nk-navbar-lg
+.nk-navbar-overlay-content
+-->
+<div id="nk-nav-mobile" class="nk-navbar nk-navbar-side nk-navbar-right-side nk-navbar-overlay-content d-lg-none">
+    <div class="nano">
+        <div class="nano-content">
+            <a href="{% url 'home' %}" class="nk-nav-logo">
+                <img src="{% static 'assets/images/logo.png' %}" alt="" width="120">
+            </a>
+            <div class="nk-navbar-mobile-content">
+                <ul class="nk-nav">
+                    <!-- Here will be inserted menu from [data-mobile-menu="#nk-nav-mobile"] -->
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="row ml-auto my-2 my-lg-0">
-        {% include 'login_partial.html' %}
-        <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarDefault"
-                aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
+</div>
+<!-- END: Navbar Mobile -->
+
+
+<div class="nk-gap-2"></div>
 
 <main role="main">
     <div class="container body-content py-5 mt-5">
@@ -51,11 +142,97 @@
     <p>Footer</p>
 </footer>
 
-<!-- JQuery and Bootstrap core
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{% static 'scripts/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'scripts/popper.min.js' %}"></script>
-<script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+<!-- START: Login Modal -->
+<div class="nk-modal modal fade show fuck" id="modalLogin" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="ion-android-close"></span>
+                </button>
+
+                {% include 'login.html' %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: Login Modal -->
+
+
+
+<!-- START: Scripts -->
+
+<!-- Object Fit Polyfill -->
+<script src="{% static 'assets/vendor/object-fit-images/dist/ofi.min.js' %}"></script>
+
+<!-- GSAP -->
+<script src="{% static 'assets/vendor/gsap/src/minified/TweenMax.min.js' %}"></script>
+<script src="{% static 'assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js' %}"></script>
+
+<!-- Popper -->
+<script src="{% static 'assets/vendor/popper.js/dist/umd/popper.min.js' %}"></script>
+
+<!-- Bootstrap -->
+<script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+<!-- Sticky Kit -->
+<script src="{% static 'assets/vendor/sticky-kit/dist/sticky-kit.min.js' %}"></script>
+
+<!-- Jarallax -->
+<script src="{% static 'assets/vendor/jarallax/dist/jarallax.min.js' %}"></script>
+<script src="{% static 'assets/vendor/jarallax/dist/jarallax-video.min.js' %}"></script>
+
+<!-- imagesLoaded -->
+<script src="{% static 'assets/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+
+<!-- Flickity -->
+<script src="{% static 'assets/vendor/flickity/dist/flickity.pkgd.min.js' %}"></script>
+
+<!-- Photoswipe -->
+<script src="{% static 'assets/vendor/photoswipe/dist/photoswipe.min.js' %}"></script>
+<script src="{% static 'assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js' %}"></script>
+
+<!-- Jquery Validation -->
+<script src="{% static 'assets/vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+
+<!-- Jquery Countdown + Moment -->
+<script src="{% static 'assets/vendor/jquery-countdown/dist/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'assets/vendor/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js' %}"></script>
+
+<!-- Hammer.js -->
+<script src="{% static 'assets/vendor/hammerjs/hammer.min.js' %}"></script>
+
+<!-- NanoSroller -->
+<script src="{% static 'assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js' %}"></script>
+
+<!-- SoundManager2 -->
+<script src="{% static 'assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js' %}"></script>
+
+<!-- Seiyria Bootstrap Slider -->
+<script src="{% static 'assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
+
+<!-- Summernote -->
+<script src="{% static 'assets/vendor/summernote/dist/summernote-bs4.min.js' %}"></script>
+
+<!-- nK Share -->
+<script src="{% static 'assets/plugins/nk-share/nk-share.js' %}"></script>
+
+<!-- GoodGames -->
+<script src="{% static 'assets/js/goodgames.min.js' %}"></script>
+<script src="{% static 'assets/js/goodgames-init.js' %}"></script>
+
+<script src="{% static 'assets/js/demo.js' %}"></script>
+<!-- END: Scripts -->
+
+{% if login_error %}
+    <script>
+        $(document).ready(function () {
+            $('#modalLogin').modal('show');
+        });
+    </script>
+{% endif %}
+
 </body>
 </html>

@@ -1,14 +1,30 @@
 {% if user.is_authenticated %}
-        <form action="/logout" method="get">
-            {% csrf_token %}
-            <span class="navbar-brand">Hello {{ user.username }}!</span>
-            <button type="submit" class=" btn btn-outline-success mr-2 my-2 my-sm-0">Log Out</button>
-        </form>
+    <li>
+        <a href="{% url 'create_game' %}">Sell Article</a>
+    </li>
+    <li class=" nk-drop-item demo-js">
+        <a href="#">Hello {{ user.username }}</a>
+        <ul class="dropdown">
+            <li>
+                <a href="#">Profile</a>
+            </li>
+            <li>
+                <a href="#">Settings</a>
+            </li>
+            <li>
+                <form action="/logout" method="get" name="logout">
+                    {% csrf_token %}
+                    <a href="javascript:document.getElementsByName('logout')[0].submit()" class="demo-opened">Log Out</a>
+                </form>
+            </li>
+        </ul>
+    </li>
+
 {% else %}
-        <a href="{% url 'login' %}">
-            <button class="btn btn-outline-success mr-2 my-2 my-sm-0" type="button">Log In</button>
-        </a>
-        <a href="{% url 'signup' %}">
-            <button class="btn btn-success mr-2 my-2 my-sm-0" type="button">Sign Up</button>
-        </a>
+    <li>
+        <a href="#" data-toggle="modal" data-target="#modalLogin">Log In</a>
+    </li>
+    <li>
+        <a href="{% url 'signup' %}">Sign Up</a>
+    </li>
 {% endif %}

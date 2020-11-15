@@ -1,37 +1,647 @@
 {% extends "layout.html" %}
 
 {% block content %}
+    {% load static %}
 
-    <div class="row">
-        <div class="col">
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            {% load static %}
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="{% static 'img/default.jpg' %}" alt="First slide">
+    <div class="nk-main">
+
+
+        <div class="container">
+            <h3 class="nk-decorated-h-2"><span>Just then her head</span></h3>
+            <div class="nk-gap-1"></div>
+
+
+            <div class="row vertical-gap">
+                <div class="col-lg-8">
+                    <div class="nk-store-product">
+                        <div class="row vertical-gap">
+                            <div class="col-md-6">
+                                <!-- START: Product Photos -->
+                                <div class="nk-popup-gallery" data-pswp-uid="1">
+                                    <div class="nk-gallery-item-box">
+                                        <a href="{% static 'assets/images/product-6.jpg' %}" class="nk-gallery-item"
+                                           data-size="1200x554">
+                                            <div class="nk-gallery-item-overlay"><span class="ion-eye"></span></div>
+                                            <img src="{% static 'assets/images/product-6-lg.jpg' %}" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="nk-gap-1"></div>
+                                    <div class="row vertical-gap sm-gap">
+                                        <div class="col-6 col-md-4">
+                                            <div class="nk-gallery-item-box">
+                                                <a href="{% static 'assets/images/product-7.jpg' %}" class="nk-gallery-item"
+                                                   data-size="622x942">
+                                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span>
+                                                    </div>
+                                                    <img src="{% static 'assets/images/product-7-square.jpg' %}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="nk-gallery-item-box">
+                                                <a href="{% static 'assets/images/product-8.jpg' %}" class="nk-gallery-item"
+                                                   data-size="1920x907">
+                                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span>
+                                                    </div>
+                                                    <img src="{% static 'assets/images/product-8-square.jpg' %}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="nk-gallery-item-box">
+                                                <a href="{% static 'assets/images/product-9.jpg' %}" class="nk-gallery-item"
+                                                   data-size="1500x750">
+                                                    <div class="nk-gallery-item-overlay"><span class="ion-eye"></span>
+                                                    </div>
+                                                    <img src="{% static 'assets/images/product-9-square.jpg' %}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END: Product Photos -->
+                            </div>
+                            <div class="col-md-6">
+
+                                <h2 class="nk-product-title h3">Just then her head </h2>
+
+                                <div class="nk-product-description">
+                                    <p>With what mingled joy and sorrow do I take up the pen to write to my dearest
+                                        friend! Oh, what a change between to-day and yesterday! Now I am friendless and
+                                        alone; yesterday I was at home, in the sweet company of a sister, whom I shall
+                                        ever, ever cherish! I was awakened at daybreak by the charwoman, and having
+                                        arrived at the inn, was at first placed inside the coach. But, when we got to a
+                                        place called Leakington. Now the races of these two have been for some ages
+                                        utterly extinct.</p>
+                                </div>
+
+                                <!-- START: Add to Cart -->
+                                <div class="nk-gap-2"></div>
+                                <form action="#" class="nk-product-addtocart" novalidate="novalidate">
+                                    <div class="nk-product-price">€ 32.00</div>
+                                    <div class="nk-gap-1"></div>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control valid" value="1" min="1" max="21"
+                                               aria-invalid="false">
+                                        <button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Add to Cart</button>
+                                    </div>
+                                </form>
+                                <div class="nk-gap-3"></div>
+                                <!-- END: Add to Cart -->
+
+                                <!-- START: Meta -->
+                                <div class="nk-product-meta">
+                                    <div><strong>Categories</strong>: <a href="#">online</a>, <a href="#">FPS</a>, <a
+                                            href="#">MMO</a>, <a href="#">Action games</a></div>
+                                    <div><strong>Tags</strong>: <a href="#">blizzard</a>, <a href="#">action</a>, <a
+                                            href="#">MMO</a></div>
+                                </div>
+                                <!-- END: Meta -->
+                            </div>
+                        </div>
+
+
+                        <div class="nk-gap-2"></div>
+                        <!-- START: Tabs -->
+                        <div class="nk-tabs">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" href="#tab-description" role="tab" data-toggle="tab"
+                                       aria-selected="true">Description</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#tab-reviews" role="tab" data-toggle="tab"
+                                       aria-selected="false">Reviews (3)</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+
+                                <!-- START: Tab Description -->
+                                <div role="tabpanel" class="tab-pane fade active show" id="tab-description">
+                                    <div class="nk-gap"></div>
+                                    <strong class="text-white">Release Date: 24/05/2018</strong>
+                                    <div class="nk-gap"></div>
+                                    <p>She gave my mother such a turn, that I have always been convinced I am indebted
+                                        to Miss Betsey for having been born on a Friday. The word was appropriate to the
+                                        moment. My mother was so much worse that Peggotty, coming in with the teaboard
+                                        and candles, and seeing at a glance how ill she was, - as Miss Betsey might have
+                                        done sooner if there had been light enough, - conveyed her upstairs to her own
+                                        room with all speed; and immediately dispatched Ham Peggotty, her nephew, who
+                                        had been for some days past secreted in the house, unknown to my mother, as a
+                                        special messenger in case of emergency, to fetch the nurse and doctor.</p>
+
+                                    <div class="nk-product-info-row row vertical-gap">
+                                        <div class="col-md-5">
+                                            <div class="nk-product-pegi">
+                                                <div class="nk-gap"></div>
+                                                <img src="assets/images/pegi-icon.jpg" alt="">
+                                                <div class="nk-product-pegi-cont">
+                                                    <strong class="text-white">Pegi Rating:</strong>
+                                                    <div class="nk-gap"></div>
+                                                    Suitable for people aged 12 and over.
+                                                </div>
+                                                <div class="nk-gap"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="nk-gap"></div>
+                                            <strong class="text-white">Genre:</strong>
+                                            <div class="nk-gap"></div>
+                                            TBD
+                                            <div class="nk-gap"></div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="nk-gap"></div>
+                                            <strong class="text-white">Customer Rating:</strong>
+                                            <div class="nk-gap"></div>
+                                            <div class="nk-product-rating" data-rating="4.5">
+                                                <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                     data-prefix="fa" data-icon="star" role="img"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                     data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                          d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                </svg><!-- <i class="fa fa-star"></i> -->
+                                                <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                     data-prefix="fa" data-icon="star" role="img"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                     data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                          d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                </svg><!-- <i class="fa fa-star"></i> -->
+                                                <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                     data-prefix="fa" data-icon="star" role="img"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                     data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                          d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                </svg><!-- <i class="fa fa-star"></i> -->
+                                                <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                     data-prefix="fa" data-icon="star" role="img"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                     data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                          d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                </svg><!-- <i class="fa fa-star"></i> -->
+                                                <svg class="svg-inline--fa fa-star-half fa-w-18" aria-hidden="true"
+                                                     data-prefix="fas" data-icon="star-half" role="img"
+                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                     data-fa-i2svg="">
+                                                    <path fill="currentColor"
+                                                          d="M288 0c-11.4 0-22.8 5.9-28.7 17.8L194 150.2 47.9 171.4c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.1 23 46 46.4 33.7L288 439.6V0z"></path>
+                                                </svg><!-- <i class="fas fa-star-half"></i> --></div>
+                                            <div class="nk-gap"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END: Tab Description -->
+
+                                <!-- START: Tab Reviews -->
+                                <div role="tabpanel" class="tab-pane fade" id="tab-reviews">
+                                    <div class="nk-gap-2"></div>
+                                    <!-- START: Reply -->
+                                    <h3 class="h4">Add a Review</h3>
+                                    <div class="nk-reply">
+                                        <form action="#" class="nk-form" novalidate="novalidate">
+                                            <div class="row vertical-gap sm-gap">
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control required" name="name"
+                                                           placeholder="Name *">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="text" class="form-control required" name="title"
+                                                           placeholder="Title *">
+                                                </div>
+                                            </div>
+                                            <div class="nk-gap-1"></div>
+                                            <textarea class="form-control required" name="message" rows="5"
+                                                      placeholder="Your Review *" aria-required="true"></textarea>
+                                            <div class="nk-gap-1"></div>
+                                            <div class="nk-rating">
+                                                <input type="radio" id="review-rate-5" name="review-rate" value="5">
+                                                <label for="review-rate-5">
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="far" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>
+                                                        <!-- <i class="far fa-star"></i> --></span>
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="fa" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path></svg>
+                                                        <!-- <i class="fa fa-star"></i> --></span>
+                                                </label>
+
+                                                <input type="radio" id="review-rate-4" name="review-rate" value="4">
+                                                <label for="review-rate-4">
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="far" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>
+                                                        <!-- <i class="far fa-star"></i> --></span>
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="fa" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path></svg>
+                                                        <!-- <i class="fa fa-star"></i> --></span>
+                                                </label>
+
+                                                <input type="radio" id="review-rate-3" name="review-rate" value="3">
+                                                <label for="review-rate-3">
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="far" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>
+                                                        <!-- <i class="far fa-star"></i> --></span>
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="fa" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path></svg>
+                                                        <!-- <i class="fa fa-star"></i> --></span>
+                                                </label>
+
+                                                <input type="radio" id="review-rate-2" name="review-rate" value="2">
+                                                <label for="review-rate-2">
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="far" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>
+                                                        <!-- <i class="far fa-star"></i> --></span>
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="fa" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path></svg>
+                                                        <!-- <i class="fa fa-star"></i> --></span>
+                                                </label>
+
+                                                <input type="radio" id="review-rate-1" name="review-rate" value="1">
+                                                <label for="review-rate-1">
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="far" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path></svg>
+                                                        <!-- <i class="far fa-star"></i> --></span>
+                                                    <span><svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                               data-prefix="fa" data-icon="star" role="img"
+                                                               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                               data-fa-i2svg=""><path fill="currentColor"
+                                                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path></svg>
+                                                        <!-- <i class="fa fa-star"></i> --></span>
+                                                </label>
+                                            </div>
+                                            <button class="nk-btn nk-btn-rounded nk-btn-color-dark-3 float-right">
+                                                Submit
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- END: Reply -->
+
+                                    <div class="clearfix"></div>
+                                    <div class="nk-gap-2"></div>
+                                    <div class="nk-comments">
+                                        <!-- START: Review -->
+                                        <div class="nk-comment">
+                                            <div class="nk-comment-meta">
+                                                <img src="assets/images/avatar-2.jpg" alt="Witch Murder"
+                                                     class="rounded-circle" width="35"> by <a href="#">Witch Murder</a>
+                                                in 20 September, 2018
+                                                <div class="nk-review-rating" data-rating="4.5">
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="far" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg><!-- <i class="far fa-star"></i> --></div>
+                                            </div>
+                                            <div class="nk-comment-text">
+                                                <p>Upon replenish great rule. Were tree, given day him night Fruit it
+                                                    moveth all. First they're creature seasons and creature fill a it
+                                                    have fifth, their own subdue brought above divided.</p>
+
+                                                <p>Behold it set, seas seas and meat divided Moveth cattle forth evening
+                                                    above moveth so, signs god a fruitful his after called that
+                                                    whose.</p>
+                                            </div>
+                                        </div>
+                                        <!-- END: Review -->
+                                        <!-- START: Review -->
+                                        <div class="nk-comment">
+                                            <div class="nk-comment-meta">
+                                                <img src="assets/images/avatar-1.jpg" alt="Hitman"
+                                                     class="rounded-circle" width="35"> by <a href="#">Hitman</a> in 14
+                                                Jule, 2018
+                                                <div class="nk-review-rating" data-rating="0.5">
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="far" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg><!-- <i class="far fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="far" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg><!-- <i class="far fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="far" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg><!-- <i class="far fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="far" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                                    </svg><!-- <i class="far fa-star"></i> --></div>
+                                            </div>
+                                            <div class="nk-comment-text">
+                                                <p> I was awakened at daybreak by the charwoman, and having arrived at
+                                                    the inn, was at first placed inside the coach. :(</p>
+                                            </div>
+                                        </div>
+                                        <!-- END: Review -->
+                                        <!-- START: Review -->
+                                        <div class="nk-comment">
+                                            <div class="nk-comment-meta">
+                                                <img src="assets/images/avatar-3.jpg" alt="Wolfenstein"
+                                                     class="rounded-circle" width="35"> by <a href="#">Wolfenstein</a>
+                                                in 27 June, 2018
+                                                <div class="nk-review-rating" data-rating="3.5">
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> -->
+                                                    <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                         data-prefix="fa" data-icon="star" role="img"
+                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                         data-fa-i2svg="">
+                                                        <path fill="currentColor"
+                                                              d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                                    </svg><!-- <i class="fa fa-star"></i> --></div>
+                                            </div>
+                                            <div class="nk-comment-text">
+                                                <p>Divided thing, land it evening earth winged whose great after. Were
+                                                    grass night. To Air itself saw bring fly fowl. Fly years behold
+                                                    spirit day greater of wherein winged and form. Seed open don't thing
+                                                    midst created dry every greater divided of, be man is. Second Bring
+                                                    stars fourth gathering he hath face morning fill. Living so second
+                                                    darkness. Moveth were male. May creepeth. Be tree fourth.</p>
+                                            </div>
+                                        </div>
+                                        <!-- END: Review -->
+                                    </div>
+                                </div>
+                                <!-- END: Tab Reviews -->
+
+                            </div>
+                        </div>
+                        <!-- END: Tabs -->
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="{% static 'img/default.jpg' %}" alt="Second slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="{% static 'img/default.jpg' %}" alt="Third slide">
-                    </div>
+
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                <div class="col-lg-4 nk-sidebar-sticky-parent">
+                    <!--
+                        START: Sidebar
+
+                        Additional Classes:
+                            .nk-sidebar-left
+                            .nk-sidebar-right
+                            .nk-sidebar-sticky
+                    -->
+                    <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+                        <div>
+
+                            <div class="nk-widget nk-widget-highlighted">
+                                <h4 class="nk-widget-title"><span><span class="text-main-1">Related</span> Articles</span>
+                                </h4>
+                                <div class="nk-widget-content">
+
+                                    <div class="nk-widget-post">
+                                        <a href="{% url 'article_details' 1 %}" class="nk-post-image">
+                                            <img src="{% static 'assets/images/product-1-xs.jpg' %}" alt="So saying he unbuckled">
+                                        </a>
+                                        <h3 class="nk-post-title"><a href="{% url 'article_details' 1 %}">So saying he
+                                            unbuckled</a></h3>
+                                        <div class="nk-product-rating" data-rating="4">
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="far" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                            </svg><!-- <i class="far fa-star"></i> --></div>
+                                        <div class="nk-product-price">€ 23.00</div>
+                                    </div>
+
+                                    <div class="nk-widget-post">
+                                        <a href="{% url 'article_details' 1 %}" class="nk-post-image">
+                                            <img src="{% static 'assets/images/product-2-xs.jpg' %}" alt="However, I have reason">
+                                        </a>
+                                        <h3 class="nk-post-title"><a href="{% url 'article_details' 1 %}">However, I have
+                                            reason</a></h3>
+                                        <div class="nk-product-rating" data-rating="2.5">
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star-half fa-w-18" aria-hidden="true"
+                                                 data-prefix="fas" data-icon="star-half" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M288 0c-11.4 0-22.8 5.9-28.7 17.8L194 150.2 47.9 171.4c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.1 23 46 46.4 33.7L288 439.6V0z"></path>
+                                            </svg><!-- <i class="fas fa-star-half"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="far" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                            </svg><!-- <i class="far fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="far" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M528.1 171.5L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6zM388.6 312.3l23.7 138.4L288 385.4l-124.3 65.3 23.7-138.4-100.6-98 139-20.2 62.2-126 62.2 126 139 20.2-100.6 98z"></path>
+                                            </svg><!-- <i class="far fa-star"></i> --></div>
+                                        <div class="nk-product-price">€ 32.00</div>
+                                    </div>
+
+                                    <div class="nk-widget-post">
+                                        <a href="{% url 'article_details' 1 %}" class="nk-post-image">
+                                            <img src="{% static 'assets/images/product-3-xs.jpg' %}" alt="It was some time before">
+                                        </a>
+                                        <h3 class="nk-post-title"><a href="{% url 'article_details' 1 %}">It was some time
+                                            before</a></h3>
+                                        <div class="nk-product-rating" data-rating="5">
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> -->
+                                            <svg class="svg-inline--fa fa-star fa-w-18" aria-hidden="true"
+                                                 data-prefix="fa" data-icon="star" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                            </svg><!-- <i class="fa fa-star"></i> --></div>
+                                        <div class="nk-product-price">€ 14.00</div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </aside>
+                    <!-- END: Sidebar -->
+                </div>
             </div>
         </div>
-        <div class="col">
+        <div class="nk-gap-2"></div>
 
-        </div>
+
     </div>
-
 
 
 {% endblock %}

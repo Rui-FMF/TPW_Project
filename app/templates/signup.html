@@ -1,43 +1,73 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="d-flex justify-content-center">
-        <div class="rounded bg-light">
-            <form method="post" class="px-4 py-3">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Sign up</button>
-            </form>
-            {#            <form class="px-4 py-3">#}
-            {#                <div class="form-group form-row">#}
-            {#                    <div class="col">#}
-            {#                        <label for="inputFirstName">First name</label>#}
-            {#                        <input type="text" class="form-control" id="inputFirstName" placeholder="First name">#}
-            {#                    </div>#}
-            {#                     <div class="col">#}
-            {#                        <label for="inputLastName">Last name</label>#}
-            {#                        <input type="text" class="form-control" id="inputLastName" placeholder="Last name">#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#                <div class="form-group">#}
-            {#                    <label for="inputEmail">Email address</label>#}
-            {#                    <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com">#}
-            {#                </div>#}
-            {#                <div class="form-group form-row">#}
-            {#                    <div class="col">#}
-            {#                        <label for="inputPassword1">Password</label>#}
-            {#                        <input type="password" class="form-control" id="inputPassword1" placeholder="Password">#}
-            {#                    </div>#}
-            {#                    <div class="col">#}
-            {#                        <label for="inputPassword2">Confirm Password</label>#}
-            {#                        <input type="password" class="form-control" id="inputPassword2" placeholder="Confirm Password">#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#                <button type="submit" class="btn btn-primary">Sign Up</button>#}
-            {#            </form>#}
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Already have an account? Log in</a>
-        </div>
+    <div class="signup-padding">
+        <h3><span><span class="text-main-1">Sign</span> Up</span></h3>
+        <div class="nk-gap-1"></div>
+
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                    {% for error in form.email.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group form-row">
+                <div class="col">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                    {{ form.first_name.help_text|safe }}
+                </div>
+                <div class="col">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                    {{ form.last_name.help_text|safe }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group form-row">
+                <div class="col">
+                    {{ form.password1.label_tag }}
+                    {{ form.password1 }}
+                </div>
+                <div class="col">
+                    {{ form.password2.label_tag }}
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        {% for error in form.password2.errors %}
+                            <li><a href="#" class="error">{{ error|escape }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="nk-gap-1"></div>
+            <div class="row vertical-gap">
+                <div class="col-md-6">
+                    <button type="submit"
+                            class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block"
+                            name="signup">Sign Up
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <div class="mnt-5">
+                        <small><a href="#" data-toggle="modal" data-target="#modalLogin">Already have an account? Log in</a></small>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 {% endblock %}
 
