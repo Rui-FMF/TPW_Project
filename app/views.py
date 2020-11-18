@@ -120,3 +120,9 @@ def edit_game(request, game_id):
 def shop_cart(request):
     return render(request, 'shop_cart.html', {})
 
+
+def saved(request):
+    return render(request, 'saved.html', {})
+
+
+

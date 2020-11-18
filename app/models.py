@@ -118,15 +118,4 @@ class Game(Item):
         return self.name
 
 
-class Platform(models.Model):
-    ...
-
-
-class Company(models.Model):
-    ...
-
-
-class Franchise(models.Model):
-    ...
-
 

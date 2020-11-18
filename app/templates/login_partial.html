@@ -1,6 +1,9 @@
 {% if user.is_authenticated %}
     <li>
-        <a href="{% url 'create_game' %}">Sell Article</a>
+        <a href="{% url 'saved' %}">Saved</a>
+    </li>
+    <li>
+        <a href="{% url 'create_article' %}">Sell Article</a>
     </li>
     <li class=" nk-drop-item demo-js">
         <a href="#">Hello {{ user.username }}</a>

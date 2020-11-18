@@ -33,6 +33,7 @@ urlpatterns = [
 
     path('articles/', views.articles, name='articles'),
     path('articles/<int:article_id>/', views.article_details, name='article_details'),
+    path('articles/<str:article_platform>/', views.articles),
 
     path('new/article/', views.create_article, name='create_article'),
     path('new/article/<int:article_id>/', views.edit_article, name='edit_article'),
@@ -40,5 +41,7 @@ urlpatterns = [
     path('new/article/game/<int:game_id>/', views.edit_game, name='edit_game'),
 
     path('shopcart/', views.shop_cart, name='shop_cart'),
+
+    path('saved/', views.saved, name='saved'),
 
 ]
