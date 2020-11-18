@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
 
-from app.forms import SignUpForm, ArticleForm, GameForm
+from app.forms import SignupForm, ArticleForm, GameForm
 from app.models import *
 
 # Create your views here.
@@ -15,8 +15,11 @@ def home(request):
 
 
 def signup(request):
+
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        print(request.POST.get('name'))
+        print(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -25,7 +28,8 @@ def signup(request):
             login(request, user)
             return redirect('home')
     else:
-        form = SignUpForm()
+        form = SignupForm()
+
     return render(request, 'signup.html', {'form': form})
 
 
@@ -115,4 +119,10 @@ def edit_game(request, game_id):
 
 def shop_cart(request):
     return render(request, 'shop_cart.html', {})
+
+
+def saved(request):
+    return render(request, 'saved.html', {})
+
+
 

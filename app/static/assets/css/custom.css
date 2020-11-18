@@ -1,0 +1,36 @@
+a.error {
+    cursor: default;
+    text-decoration: none;
+}
+
+.signup-padding {
+    padding: 0 20% 0 20%;
+}
+
+@media (max-width: 991px) {
+    .signup-padding {
+        padding: 0 10% 0 10%;
+    }
+}
+
+@media (max-width: 575px) {
+    .signup-padding {
+        padding: 0;
+    }
+}
+
+.demo-opened {
+    display: block !important;
+    opacity : 1 !important;
+    transform: matrix(1, 0, 0, 1, 0, 0) !important;
+}
+
+.demo-closed {
+    display: none !important;
+    opacity : 0 !important;
+    transform: translate(20%, 0%) matrix(1, 0, 0, 1, 0, 0) !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #16181b;
+}
