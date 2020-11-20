@@ -32,8 +32,10 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
 
     path('articles/', views.articles, name='articles'),
-    path('articles/<int:article_id>/', views.article_details, name='article_details'),
-    path('articles/<str:article_platform>/', views.articles),
+    path('articles/<str:article_type>/', views.articles, name='articles_type'),
+    path('articles/<str:article_type>/<str:article_platform>/', views.articles, name='articles_type_platform'),
+
+    path('article/<int:article_id>/', views.article_details, name='article_details'),
 
     path('new/article/', views.create_article, name='create_article'),
     path('new/article/<int:article_id>/', views.edit_article, name='edit_article'),
