@@ -1,8 +1,8 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from app.forms import SignupForm, ArticleForm, GameForm
 from app.models import *
@@ -11,7 +11,8 @@ from app.models import *
 
 
 def home(request):
-    return render(request, 'index.html', {})
+    # TODO: change to top 6 Articles most viewed
+    return render(request, 'index.html', {'platforms': Game.PLATFORM_CHOICES, 'popular_articles': Article.objects.all()[:6]})
 
 
 def signup(request):
@@ -33,8 +34,54 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def articles(request):
-    return render(request, 'articles.html', {})
+def articles(request, article_type=None, article_platform=None):
+    if article_type is not None and article_type not in ('games', 'consoles'):
+        return HttpResponse(status=404)
+    if article_platform is not None and article_platform not in Game.PLATFORM_CHOICES:
+        return HttpResponse(status=404)
+    params = {}
+    form = {
+        'search': '',
+        'price': (0, 1200),
+    }
+    if request.method == 'GET':
+        # apply search bar
+        if all(p in request.GET for p in ('submit_search', 'search')):
+            form['search'] = request.GET['search']
+        # apply all
+        else:
+            if 'search' in request.GET:
+                form['search'] = request.GET['search']
+            if 'price' in request.GET:
+                try:
+                    form['price'] = [int(p) for p in request.GET['price'].split(',')]
+                except ValueError:
+                    pass
+        # filter and order query to avoid warnings in paginator
+        queryset = Article.objects.get_queryset().filter(
+            Is_sold=False, name__icontains=form['search'],
+            total_price__range=form['price']
+            ).order_by("id")
+        if article_type == 'games':
+            queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id).exists()]
+        elif article_type == 'console':
+            # queryset = [a for a in queryset if Console.objects.filter(pertaining_article=a.id).exists()] # TODO: create Console
+            pass
+        page_obj = Paginator(queryset, 16).page(1)
+        # get page
+        if 'page' in request.GET:
+            try:
+                page = int(request.GET['page'])
+                if 1 <= page <= page_obj.paginator.num_pages:
+                    page_obj = page_obj.paginator.page(page)
+            except ValueError:
+                pass
+        params = {
+            'article_type': article_type,
+            'page_obj': page_obj,
+            'form': form,
+        }
+    return render(request, 'articles.html', params)
 
 
 def article_details(request, article_id):
@@ -122,7 +169,18 @@ def shop_cart(request):
 
 
 def saved(request):
-    return render(request, 'saved.html', {})
+    # order query to avoid warnings in paginator
+    page_obj = Paginator(Article.objects.get_queryset().order_by('id'), 8).page(1)
+    # TODO: change to saved articles according to request.user.id
+    if request.method == 'GET':
+        if 'page' in request.GET:
+            try:
+                page = int(request.GET['page'])
+                if 1 <= page <= page_obj.paginator.num_pages:
+                    page_obj = page_obj.paginator.page(page)
+            except ValueError:
+                pass
+    return render(request, 'articles_alt.html', {'page_obj': page_obj})
 
 
 

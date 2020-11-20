@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from app.models import *
 
+
 class LoginForm(AuthenticationForm):
     # error_messages = {
     #     'invalid_login': (
