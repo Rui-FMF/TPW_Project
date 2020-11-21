@@ -35,7 +35,8 @@ urlpatterns = [
     path('articles/<int:article_id>/', views.article_details, name='article_details'),
     path('articles/<str:article_platform>/', views.articles),
 
-    path('new/article/', views.create_article, name='create_article'),
+    path('new/article/', views.create_article1, name='create_article1'),
+    path('new/article2/', views.create_article2, name='create_article2'),
     path('new/article/<int:article_id>/', views.edit_article, name='edit_article'),
     path('new/article/game/', views.create_game, name='create_game'),
     path('new/article/game/<int:game_id>/', views.edit_game, name='edit_game'),

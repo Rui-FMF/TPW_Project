@@ -77,3 +77,21 @@ class GameForm(forms.Form):
                                widget=forms.Select(attrs={'class': 'form-control'}))
     platform = forms.ChoiceField(choices=Game.PLATFORM_CHOICES, label="*Platform",
                                  widget=forms.Select(attrs={'class': 'form-control'}))
+
+
+class ConsoleForm(forms.Form):
+    price = forms.DecimalField(max_value=1000000000000, decimal_places=2, label="*Price",
+                               widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(max_length=70, label="*Title",
+                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+    release_year = forms.DecimalField(max_value=2050, decimal_places=0, label="*Release Year",
+                                      widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    brand = forms.CharField(max_length=70, label="*Brand",
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
+    storage_capacity = forms.CharField(max_length=20, label="*Storage",
+                                       widget=forms.TextInput(attrs={'class': 'form-control'}))
+    color = forms.CharField(max_length=70, label="*Color",
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    condition = forms.ChoiceField(choices=Console.CONDITION_CHOICES, label="*Condition",
+                                  widget=forms.Select(attrs={'class': 'form-control'}))

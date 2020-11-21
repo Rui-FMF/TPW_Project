@@ -15,15 +15,16 @@
             <div class="col-sm-2 col-form-label">Games</div>
             <div class="col-sm-10">
                 <ul class="list-group">
+                {% ifequal items.count 0 %}
+                    <li class="list-group-item">Add an item...</li>
+                {% else %}
                     {% for item in items %}
                     <li class="list-group-item">
-                        {{ item }} <a href="{% url 'edit_game' 1 %}">Edit</a>&nbsp;<a href="#">Delete</a>
+                        {{ item }}
                     </li>
                     {% endfor %}
+                {% endifequal %}
                 </ul>
-                <a href="{% url 'create_game' %}">
-                    <button type="button" class="btn btn-secondary mt-2">Add Game</button>
-                </a>
             </div>
         </div>
 

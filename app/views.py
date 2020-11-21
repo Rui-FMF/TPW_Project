@@ -41,7 +41,30 @@ def article_details(request, article_id):
     return render(request, 'article_details.html', {})
 
 
-def create_article(request):
+def create_article1(request):
+    temp = Article.objects.filter(name=request.user.id)
+    items = []
+    if temp.count() == 0:
+        a = Article(name=request.user.id, seller=request.user)
+        a.save()
+        price = 0
+    else:
+        a = temp[0]
+        price = 0
+        if (request.method == 'POST') and "del" in request.POST:
+            iid = request.POST["del"]
+            Item.objects.get(id=iid).delete()
+        for i in a.items_in_article.all():
+            items.append(i)
+            price += i.price
+
+    if request.method == 'POST' and "del" not in request.POST:
+        if len(items)>0:
+            return HttpResponseRedirect(reverse('create_article2'))
+    return render(request, 'article_form1.html', {'items': items, 'price': str(price)})
+
+
+def create_article2(request):
 
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -49,7 +72,7 @@ def create_article(request):
             name = form.cleaned_data['name']
             shipping_fee = form.cleaned_data['shipping_fee']
             shipping_time = form.cleaned_data['shipping_time']
-            a = Article.objects.get(name=request.user.id)   # TODO: tirar opcao de sell article fora de autenticacao
+            a = Article.objects.get(name=request.user.id)
             a2 = Article(name=name, ShippingFee=shipping_fee, ShippingTime=shipping_time, seller=request.user,
                          times_viewed=0)
             a2.save()
@@ -61,31 +84,20 @@ def create_article(request):
             a2.total_price = total_price
             Article.objects.get(name=request.user.id).delete()
             a2.save()
-            return render(request, 'index.html', {})
+            return HttpResponseRedirect(reverse('home'))
     else:
-        temp = Article.objects.filter(name=request.user.id)
-        if temp.count() == 0:
-            a = Article(name=request.user.id, seller=request.user)
-            a.save()
-            form = ArticleForm()
-            price = 0
-            items = ["Game 1", "Game 2", "Game 3", "Game 4"]
-        else:
-            form = ArticleForm()
-            a = temp[0]
-            items = []
-            price = 0
-            for i in a.items_in_article.all():
-                items.append(i.name)
-                price += i.price
-            for n in range(len(items), 4):
-                items.append("Game "+str(n+1))
-            #form = ArticleForm(initial={'name': a.name, 'ShippingFee': a.ShippingFee, 'ShippingTime': a.ShippingTime})
-    return render(request, 'article_form.html', {'form': form, 'items': items, 'price': str(price)})
+        form = ArticleForm()
+        a = Article.objects.filter(name=request.user.id)[0]
+        items = []
+        price = 0
+        for i in a.items_in_article.all():
+            items.append(i)
+            price += i.price
+    return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price)})
 
 
 def edit_article(request, article_id):
-    return render(request, 'article_form.html', {})
+    return render(request, 'article_form2.html', {})
 
 
 def create_game(request):
@@ -112,8 +124,7 @@ def create_game(request):
 
 
 def edit_game(request, game_id):
-    params = {
-    }
+    params = {}
     return render(request, 'game_form.html', params)
 
 

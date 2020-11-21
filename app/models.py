@@ -118,4 +118,14 @@ class Game(Item):
         return self.name
 
 
+class Console(Item):
+    release_year = models.DecimalField(max_digits=5, decimal_places=0)
+    brand = models.CharField(max_length=70)
+    storage_capacity = models.CharField(max_length=20)
+    color = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.name
+
+
 
