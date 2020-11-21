@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load static tags %}
+
+    <div class="nk-main">
+
+
+        <div class="container">
+            <h2 class="nk-decorated-h-3"><span>Saved Articles</span></h2>
+            <div class="nk-gap-2"></div>
+
+            <!-- START: Products Filter -->
+            <div class="row vertical-gap">
+                <div class="col-lg-8">
+                    <div class="row vertical-gap">
+                        <div class="col-md-4">
+                            <select class="form-control">
+                                <option value="" disabled="" selected="">Select Platform</option>
+                                <option value="ps4">PS4</option>
+                                <option value="xbox">Xbox 1</option>
+                                <option value="pc">PC</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="nk-input-slider-inline">
+                                <div class="nk-input-slider">
+                                    <div class="nk-input-slider-content text-white">
+                                        PRICE:
+                                        <strong class="text-main-1">€ <span
+                                                class="nk-input-slider-value-0">200</span></strong>
+                                        -
+                                        <strong class="text-main-1">€ <span class="nk-input-slider-value-1">1275</span></strong>
+                                    </div>
+                                    <div class="nk-input-slider-input">
+                                        <input type="text" name="price-filter" data-slider-min="0"
+                                               data-slider-max="1800" data-slider-step="1"
+                                               data-slider-value="[200, 1200]" data-slider-tooltip="hide"
+                                               data-value="200,1275" value="200,1275" style="display: none;">
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <form action="#" class="nk-form" novalidate="novalidate">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Type something...">
+                            <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="nk-gap-2"></div>
+            <!-- END: Products Filter -->
+
+            <!-- START: Products -->
+            <div class="row vertical-gap">
+                {% for a in page_obj.object_list %}
+                    <div class="col-lg-6">
+                        <div class="nk-product-cat-2">
+                            <a class="nk-product-image" href="{% url 'article_details' a.id %}">
+                                <img src="{% static 'assets/images/product-10-md.jpg' %}" alt="{{ a.name }}">
+                            </a>
+                            <div class="nk-product-cont">
+                                <h3 class="nk-product-title h5"><a
+                                        href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
+                                <div class="nk-gap-1"></div>
+                                <div class="nk-product-rating" data-rating="3.5"></div>
+                                <div class="nk-gap-1"></div>
+                                <!-- TODO: change to a.description when done -->
+                                A hundred thousand grateful loves to your dear papa and mamma . Is your poor brother
+                                recovered of his rack - punch ? Oh, dear!Oh, dear!How men should beware of wicked
+                                <div class="nk-gap-2"></div>
+                                <div class="nk-product-price">{{ a.total_price }} €</div>
+                                <div class="nk-gap-1"></div>
+                                <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 ">Add to Cart</a>
+                                <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-danger nk-btn-hover-color-main-1">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- END: Products -->
+
+            <!-- START: Pagination -->
+            {% if page_obj.paginator.num_pages > 1 %}
+                <div class="nk-gap-3"></div>
+                <div class="nk-pagination nk-pagination-center">
+                    {% if page_obj.has_previous %}
+                        <a href="?{% param_replace page=page_obj.previous_page_number %}"
+                           class="nk-pagination-prev">
+                            <span class="ion-ios-arrow-back"></span>
+                        </a>
+                    {% endif %}
+                    <nav>
+                        {% if page_obj.has_previous %}
+                            <a href="?{% param_replace page=1 %}">1</a>
+                            {% if page_obj.previous_page_number > 1 %}
+                                <span>...</span>
+                                <a href="?{% param_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+                            {% endif %}
+                        {% endif %}
+                        <a class="nk-pagination-current"
+                           href="{{ request.get_full_path }}">{{ page_obj.number }}</a>
+                        {% if page_obj.has_next %}
+                            {% if page_obj.next_page_number < page_obj.paginator.num_pages %}
+                                <a href="?{% param_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+                                <span>...</span>
+                            {% endif %}
+                            <a href="?{% param_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+                        {% endif %}
+                    </nav>
+                    {% if page_obj.has_next %}
+                        <a href="?{% param_replace page=page_obj.next_page_number %}"
+                           class="nk-pagination-next">
+                            <span class="ion-ios-arrow-forward"></span>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <!-- END: Pagination -->
+
+        </div>
+
+        <div class="nk-gap-2"></div>
+
+
+    </div>
+
+
+{% endblock %}

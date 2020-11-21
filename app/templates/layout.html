@@ -66,19 +66,20 @@
                     <img src="{% static 'assets/images/logo.png' %}" alt="GoodGames" width="199">
                 </a>
                 <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
-                    <li>
-                        <a href="{% url 'shop_cart' %}">Shop Cart <span class="badge badge-danger badge-pill">2</span></a>
-                    </li>
+
                     <li class=" nk-drop-item">
-                        <a href="{% url 'articles' %}">Articles</a>
+                        <a href="{% url 'articles' %}">Store</a>
                         <ul class="dropdown">
                             <li>
-                                <a href="#">Games</a>
+                                <a href="{% url 'articles_type' 'games' %}">Games</a>
                             </li>
                             <li>
-                                <a href="#">Consoles</a>
+                                <a href="{% url 'articles_type' 'consoles' %}">Consoles</a>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'shop_cart' %}">Shop Cart <span class="badge badge-danger badge-pill">2</span></a>
                     </li>
 
                     {% include 'login_partial.html' %}

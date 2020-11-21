@@ -100,19 +100,23 @@ class Game(Item):
     XBOX1 = 'XB'
     SWITCH = 'SW'
     PC = 'PC'
-    OTHER = 'OT'
+    WII = 'WI'
+    RETRO = 'RT'
     PLATFORM_CHOICES = [
-        (PS4, 'Playstation 4'),
+        (PS4, 'Playstation'),
         (XBOX1, 'Xbox One'),
-        (SWITCH, 'Nintendo Switch'),
+        (SWITCH, 'Nintendo'),
         (PC, 'Computer'),
-        (OTHER, 'Other'),
+        (WII, 'Wii'),
+        (RETRO, 'Retro'),
     ]
     platform = models.CharField(
         max_length=2,
         choices=PLATFORM_CHOICES,
-        default=OTHER,
+        blank=True,
     )
+    # Difference between blank and null:
+    # https://simpleisbetterthancomplex.com/tips/2016/07/25/django-tip-8-blank-or-null.html
 
     def __str__(self):
         return self.name
