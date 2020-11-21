@@ -20,7 +20,7 @@
         <a href="#">Hello {{ user.username }}</a>
         <ul class="dropdown">
             <li>
-                <a href="#">Profile</a>
+                <a href="{% url 'profile' user.id %}">Profile</a>
             </li>
             <li>
                 <form action="/logout" method="get" name="logout">

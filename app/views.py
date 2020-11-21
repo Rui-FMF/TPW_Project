@@ -64,8 +64,8 @@ def articles(request, article_type=None, article_platform=None):
             ).order_by("id")
         if article_type == 'games':
             queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id).exists()]
-        elif article_type == 'console':
-            # queryset = [a for a in queryset if Console.objects.filter(pertaining_article=a.id).exists()] # TODO: create Console
+        elif article_type == 'consoles':
+            queryset = [a for a in queryset if Console.objects.filter(pertaining_article=a.id).exists()]
             pass
         page_obj = Paginator(queryset, 16).page(1)
         # get page
@@ -78,6 +78,7 @@ def articles(request, article_type=None, article_platform=None):
                 pass
         params = {
             'article_type': article_type,
+            'platforms': Game.PLATFORM_CHOICES,
             'page_obj': page_obj,
             'form': form,
         }
@@ -194,4 +195,10 @@ def saved(request):
     return render(request, 'articles_alt.html', {'page_obj': page_obj})
 
 
+def profile(request, user_id):
+    return render(request, 'profile.html', {})
+
+
+def edit_profile(request, user_id):
+    return render(request, 'signup.html', {})
 
