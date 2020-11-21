@@ -8,15 +8,15 @@
             <div class="col-sm-2 col-form-label">Items</div>
             <div class="col-sm-10">
                 <ul class="list-group">
-                {% ifequal items.count 0 %}
-                    <li class="list-group-item">Add an item...</li>
-                {% else %}
+                {% if items|length > 0 %}
                     {% for item in items %}
                     <li class="list-group-item">
-                        {{ item }} <a href="{% url 'edit_game' 1 %}">Edit</a>&nbsp;<a type="submit" name="del" value=item.id >Delete</a>
+                        {{ item }} <a href="{% url 'edit_game' 1 %}">Edit</a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
                     </li>
                     {% endfor %}
-                {% endifequal %}
+                {% else %}
+                    <li class="list-group-item">Add an item...</li>
+                {% endif %}
                 </ul>
                 <a href="{% url 'create_game' %}">
                     <button type="button" class="btn btn-secondary mt-2">Add Game</button>

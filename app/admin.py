@@ -5,4 +5,5 @@ from app.models import *
 admin.site.register(Article)
 admin.site.register(Item)
 admin.site.register(Game)
+admin.site.register(Console)
 

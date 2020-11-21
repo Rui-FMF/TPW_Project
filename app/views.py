@@ -99,7 +99,7 @@ def create_article1(request):
         a = temp[0]
         price = 0
         if (request.method == 'POST') and "del" in request.POST:
-            iid = request.POST["del"]
+            iid = int(request.POST["del"])
             Item.objects.get(id=iid).delete()
         for i in a.items_in_article.all():
             items.append(i)
@@ -164,7 +164,7 @@ def create_game(request):
             g = Game(name=name, price=price, release_year=release_year, publisher=publisher,
                      genre=genre, condition=condition, rating=rating, platform=platform, pertaining_article=a)
             g.save()
-            return HttpResponseRedirect(reverse(create_article))
+            return HttpResponseRedirect(reverse('create_article1'))
     else:
         form = GameForm()
     return render(request, 'game_form.html', {'form': form})
