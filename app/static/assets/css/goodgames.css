@@ -8873,21 +8873,13 @@ div.nk-error {
     background-color: #090b0d;
 }
 
-.nk-teammate-card .nk-teammate-card-photo {
-    -ms-flex-item-align: end;
-        align-self: flex-end;
-    width: 50%;
-    padding-right: 15px;
-}
+/*.nk-teammate-card .nk-teammate-card-photo {*/
+/*    padding-right: 40px;*/
+/*}*/
 
 .nk-teammate-card .nk-teammate-card-photo img {
     width: 100%;
     height: auto;
-}
-
-.nk-teammate-card .nk-teammate-card-info {
-    width: 50%;
-    padding-left: 15px;
 }
 
 .nk-teammate-card .nk-teammate-card-info > table {

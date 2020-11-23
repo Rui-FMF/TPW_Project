@@ -1,16 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, UserChangeForm
+from django.core.files.images import get_image_dimensions   # python3.9 -m pip install --upgrade Pillow
 from app.models import *
 
 
 class LoginForm(AuthenticationForm):
-    # error_messages = {
-    #     'invalid_login': (
-    #         "Please enter a correct username and password. Note that both "
-    #         "fields may be case-sensitive."
-    #     )
-    # }
-
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
@@ -36,6 +30,63 @@ class SignupForm(UserCreationForm):
             attrs={'class': 'form-control', 'placeholder': 'Password'})
         self.fields['password2'].widget = forms.PasswordInput(
             attrs={'class': 'form-control', 'placeholder': 'Confirm Password'})
+
+
+class SettingsForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(SettingsForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Old Password'})
+        self.fields['new_password1'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'New Password'})
+        self.fields['new_password2'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Confirm New Password'})
+
+
+class UserForm(UserChangeForm):
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.',
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.',
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'email@example.com'}))
+
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('avatar',)
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+        try:
+            w, h = get_image_dimensions(avatar)
+            # validate dimensions
+            max_width = max_height = 100
+            if w > max_width or h > max_height:
+                raise forms.ValidationError(
+                    u'Please use an image that is '
+                     '%s x %s pixels or smaller.' % (max_width, max_height))
+            # validate content type
+            main, sub = avatar.content_type.split('/')
+            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+                raise forms.ValidationError(u'Please use a JPEG, '
+                    'GIF or PNG image.')
+            # validate file size
+            if len(avatar) > (20 * 1024):
+                raise forms.ValidationError(
+                    u'Avatar file size may not exceed 20k.')
+        except AttributeError:
+            """
+            Handles case when we are updating the user profile
+            and do not supply a new avatar
+            """
+            pass
+        return avatar
 
 
 class ArticleForm(forms.Form):

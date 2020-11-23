@@ -1,23 +1,29 @@
+import datetime
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-"""
-class User(models.Model):
-    first_name = models.CharField(max_length=70)
-    last_name = models.CharField(max_length=70)
-    username = models.CharField(max_length=70)
-    password = models.CharField(max_length=70)
-    email = models.EmailField()
 
-    def __str__(self):
-        return self.username
-"""
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    biography = models.CharField(max_length=2000, blank=True)
+    avatar = models.ImageField()
+
+
+class Review(models.Model):
+    rate = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
+    description = models.CharField(max_length=2000, blank=True)
+    date_posted = models.DateField(default=datetime.date.today)
+
+    reviewer = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name="reviewer")
+    reviewed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviewed")
 
 
 class Article(models.Model):
     name = models.CharField(max_length=70)
     total_price = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    description = models.CharField(max_length=2000, blank=True)
     ShippingFee = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery along with duration
 
@@ -40,8 +46,11 @@ class Article(models.Model):
     Is_sold = models.BooleanField(default=False)
     times_viewed = models.IntegerField(default=0)
 
+    shop_cart = models.ManyToManyField(User, blank=True, related_name="Articles_on_cart")
+    saved = models.ManyToManyField(User, blank=True, related_name="Articles_saved")
+
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Articles_posted")
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None, related_name="Articles_bought")
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name="Articles_bought")
 
     def __str__(self):
         return self.name
@@ -69,6 +78,7 @@ class Item(models.Model):
         default=BRAND_NEW,
     )
 
+    tag = models.ManyToManyField('Tag', blank=True)
     pertaining_article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="items_in_article")
 
     def __str__(self):
@@ -131,5 +141,12 @@ class Console(Item):
     def __str__(self):
         return self.name
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=20)
+    is_popular = models.BooleanField(default=False)     # only popular tags will be recommended to users
+
+    def __str__(self):
+        return self.name
 
 

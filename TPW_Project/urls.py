@@ -25,7 +25,6 @@ urlpatterns = [
 
     path('', views.home, name='home'),
 
-    # path('login/', auth_views.LoginView.as_view(template_name='layout.html'), name='login'),
     path('login/', auth_views.LoginView.as_view(template_name="index.html", authentication_form=LoginForm), name='login'),
     path('logout', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
@@ -39,12 +38,19 @@ urlpatterns = [
 
     path('new/article/', views.create_article1, name='create_article1'),
     path('new/article2/', views.create_article2, name='create_article2'),
-    path('new/article/<int:article_id>/', views.edit_article, name='edit_article'),
+    path('update/article/<int:article_id>/', views.edit_article, name='edit_article'),
+
     path('new/article/game/', views.create_game, name='create_game'),
-    path('new/article/game/<int:game_id>/', views.edit_game, name='edit_game'),
+    path('update/article/game/<int:game_id>/', views.edit_game, name='edit_game'),
 
     path('shopcart/', views.shop_cart, name='shop_cart'),
 
-    path('saved/', views.saved, name='saved'),
+    path('owned/articles/<int:user_id>', views.articles_owned, name='articles_owned'),
+    path('saved/articles/', views.articles_saved, name='articles_saved'),
+
+    path('profile/<int:user_id>/', views.profile, name='profile'),
+    path('update/profile/', views.edit_profile, name='edit_profile'),
+
+    path('settings/', views.settings, name='settings')
 
 ]

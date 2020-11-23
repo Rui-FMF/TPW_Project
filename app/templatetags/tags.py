@@ -1,6 +1,27 @@
 from django import template
+from app.models import Article, Review
+from django.db.models import Avg
 
 register = template.Library()
+
+
+@register.simple_tag(takes_context=True)
+def user_rating(context, user_id):
+    avg_rate = Review.objects.filter(reviewed=user_id).aggregate(Avg('rate'))['rate__avg']
+    return 0 if avg_rate is None else avg_rate
+
+
+@register.simple_tag(takes_context=True)
+def article_rating(context, article_id):
+    avg_rate = Review.objects.filter(
+        reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
+    return 0 if avg_rate is None else avg_rate
+
+
+@register.simple_tag(takes_context=True)
+def user_reviews_number(context, article_id):
+    user = Article.objects.get(id=article_id).seller
+    return Review.objects.filter(reviewed=user.id).count()
 
 
 @register.simple_tag(takes_context=True)

@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load static tags %}
+
+    <div class="nk-main">
+
+
+        <div class="container">
+            {% if user_not_found %}
+                <div class="nk-info-box text-danger">
+                    <div class="nk-info-box-icon">
+                        <i class="ion-close-round"></i>
+                    </div>
+                    <h3>Error!</h3>
+                    <em>User not Found: the requested user does not exist.</em>
+                </div>
+            {% else %}
+
+                <h2 class="nk-decorated-h-3 mb-0"><span>
+                    {% if user.id == user2.id %}My{% else %}{{ user2.username }}{% endif %} Articles
+                </span></h2>
+
+                <div id="onsale"></div>
+                <div class="nk-gap-4"></div>
+
+                <h3 class="nk-decorated-h-2"><span>On Sale</span></h3>
+                <div class="nk-gap-1"></div>
+
+                <!-- START: Products -->
+                {% if user2_articles_on_sale %}
+                    <div class="row vertical-gap">
+                        {% for a in user2_articles_on_sale %}
+                            <div class="col-lg-6">
+                                <div class="nk-product-cat-2">
+                                    <a class="nk-product-image" href="{% url 'article_details' a.id %}">
+                                        <img src="{% static 'assets/images/product-10-md.jpg' %}" alt="{{ a.name }}">
+                                    </a>
+                                    <div class="nk-product-cont">
+                                        <h3 class="nk-product-title h5"><a
+                                                href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
+                                        <div class="nk-gap-1"></div>
+                                        <div>
+                                            <div class="nk-product-rating"
+                                                 data-rating="{% article_rating a.id %}"></div>
+                                            ({% user_reviews_number a.id %})
+                                        </div>
+                                        <div class="nk-gap-1"></div>
+                                        {{ a.description|make_list|slice:':140'|join:'' }}
+                                        {% if a.description|length > 140 %}
+                                            (...){% endif %}
+                                        <div class="nk-gap-2"></div>
+                                        <div class="nk-product-price">{{ a.total_price }} €</div>
+                                        <div class="nk-gap-1"></div>
+                                        <div class="nk-gap-1"></div>
+                                        {% if not user.id == user2.id %}
+                                            <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 ">Add to
+                                                Cart</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div style="height:150px; display:flex;">
+                        <div style="margin: auto; font-weight: bold;">
+                            {% if user.id == user2.id %}
+                                You have no articles on sale...
+                            {% else %}
+                                This user has no articles on sale...
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- END: Products -->
+
+                <div id="soldout"></div>
+                <div class="nk-gap-4"></div>
+
+                <h3 class="nk-decorated-h-2"><span>Sold Out</span></h3>
+                <div class="nk-gap-1"></div>
+
+                <!-- START: Products -->
+                {% if user2_articles_sold %}
+                    <div class="row vertical-gap">
+                        {% for a in user2_articles_sold %}
+                            <div class="col-lg-6">
+                                <div class="nk-product-cat-2">
+                                    <a class="nk-product-image" href="{% url 'article_details' a.id %}">
+                                        <img src="{% static 'assets/images/product-10-md.jpg' %}" alt="{{ a.name }}">
+                                    </a>
+                                    <div class="nk-product-cont">
+                                        <h3 class="nk-product-title h5"><a
+                                                href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
+                                        <div class="nk-gap-1"></div>
+                                        <div>
+                                            <div class="nk-product-rating"
+                                                 data-rating="{% article_rating a.id %}"></div>
+                                            ({% user_reviews_number a.id %})
+                                        </div>
+                                        <div class="nk-gap-1"></div>
+                                        {{ a.description|make_list|slice:':140'|join:'' }}
+                                        {% if a.description|length > 140 %}
+                                            (...){% endif %}
+                                        <div class="nk-gap-2"></div>
+                                        <div class="nk-product-price">{{ a.total_price }} €</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div style="height:150px; display:flex;">
+                        <div style="margin: auto; font-weight: bold;">
+                            {% if user.id == user2.id %}
+                                You have no articles sold out...
+                            {% else %}
+                                This user has no articles sold out...
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- END: Products -->
+
+                {% if user.id == user2.id %}
+                    <div id="purchased"></div>
+                    <div class="nk-gap-4"></div>
+
+                    <h3 class="nk-decorated-h-2"><span>Purchased</span></h3>
+                    <div class="nk-gap-1"></div>
+
+                    <!-- START: Products -->
+                    {% if user2_articles_purchased %}
+                        <div class="row vertical-gap">
+                            {% for a in user2_articles_purchased %}
+                                <div class="col-lg-6">
+                                    <div class="nk-product-cat-2">
+                                        <a class="nk-product-image" href="{% url 'article_details' a.id %}">
+                                            <img src="{% static 'assets/images/product-10-md.jpg' %}"
+                                                 alt="{{ a.name }}">
+                                        </a>
+                                        <div class="nk-product-cont">
+                                            <h3 class="nk-product-title h5"><a
+                                                    href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
+                                            <div class="nk-gap-1"></div>
+                                            <div>
+                                                <div class="nk-product-rating"
+                                                     data-rating="{% article_rating a.id %}"></div>
+                                                ({% user_reviews_number a.id %})
+                                            </div>
+                                            <div class="nk-gap-1"></div>
+                                            {{ a.description|make_list|slice:':140'|join:'' }}
+                                            {% if a.description|length > 140 %}
+                                                (...){% endif %}
+                                            <div class="nk-gap-2"></div>
+                                            <div class="nk-product-price">{{ a.total_price }} €</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div style="height:150px; display:flex;">
+                            <div style="margin: auto; font-weight: bold;">
+                                You have no articles purchased...
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- END: Products -->
+
+
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="nk-gap-2"></div>
+
+
+    </div>
+
+
+{% endblock %}

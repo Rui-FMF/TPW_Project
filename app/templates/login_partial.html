@@ -1,18 +1,18 @@
 {% if user.is_authenticated %}
     <li>
-        <a href="{% url 'saved' %}">Saved</a>
+        <a href="{% url 'articles_saved' %}">Saved</a>
     </li>
     <li class="nk-drop-item">
-        <a href="{% url 'create_article1' %}">My Articles</a>
+        <a href="{% url 'articles_owned' user.id %}">My Articles</a>
         <ul class="dropdown">
             <li>
-                <a href="#">Purchased</a>
+                <a href="{% url 'articles_owned' user.id %}#onsale">On Sale</a>
             </li>
             <li>
-                <a href="#">Sold Out</a>
+                <a href="{% url 'articles_owned' user.id %}#soldout">Sold Out</a>
             </li>
             <li>
-                <a href="#">On Sale</a>
+                <a href="{% url 'articles_owned' user.id %}#purchased">Purchased</a>
             </li>
         </ul>
     </li>
@@ -20,7 +20,13 @@
         <a href="#">Hello {{ user.username }}</a>
         <ul class="dropdown">
             <li>
-                <a href="#">Profile</a>
+                <a href="{% url 'profile' user.id %}">Profile</a>
+            </li>
+            <li>
+                <a href="{% url 'create_article1' %}">Sell Article</a>
+            </li>
+            <li>
+                <a href="{% url 'settings' %}">Settings</a>
             </li>
             <li>
                 <form action="/logout" method="get" name="logout">

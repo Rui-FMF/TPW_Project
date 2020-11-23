@@ -11,7 +11,7 @@
                 {{ form.username.label_tag }}
                 {{ form.username }}
                 {% if form.username.errors %}
-                    {% for error in form.email.errors %}
+                    {% for error in form.username.errors %}
                         <li><a href="#" class="error">{{ error|escape }}</a></li>
                     {% endfor %}
                 {% endif %}

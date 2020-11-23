@@ -54,8 +54,10 @@
                                             <a href="{% url 'article_details' a.id %}">{{ a.name }}</a>
                                         </h3>
                                         <div class="nk-gap-1"></div>
-                                        <div class="nk-product-rating" data-rating="4"></div>
-                                        <!-- TODO: meter data-rating no model -->
+                                        <div>
+                                            <div class="nk-product-rating" data-rating="{% article_rating a.id %}"></div>
+                                            ({% user_reviews_number a.id %})
+                                        </div>
                                         <div class="nk-gap-1"></div>
                                         <div class="nk-product-price">{{ a.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
