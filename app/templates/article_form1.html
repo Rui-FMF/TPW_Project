@@ -11,7 +11,7 @@
                 {% if items|length > 0 %}
                     {% for item in items %}
                     <li class="list-group-item">
-                        {{ item }} <a href="{% url 'edit_game' 1 %}">Edit</a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
+                        {{ item }} <a href="{% url 'edit_game' item.id %}">Edit</a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
                     </li>
                     {% endfor %}
                 {% else %}
