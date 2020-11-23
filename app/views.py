@@ -1,25 +1,36 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
 
-from app.forms import SignupForm, ArticleForm, GameForm
+from app.forms import *
 from app.models import *
 
 # Create your views here.
 
 
 def home(request):
-    # TODO: change to top 6 Articles most viewed
-    return render(request, 'index.html', {'platforms': Game.PLATFORM_CHOICES, 'popular_articles': Article.objects.all()[:6]})
+    # TODO: query super fdd
+    # user = Article.objects.get(id=article_id).seller
+    # avg_rate = Review.objects.filter(reviewed=user.id).aggregate(Avg('rate'))['rate__avg']
+    #
+    # product_list = Article.objects.annotate(
+    #     rate=Review.objects.filter(
+    #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
+    # ).order_by('total_votes')
+
+    params = {
+        'platforms': Game.PLATFORM_CHOICES,
+        'popular_articles': Article.objects.order_by('-times_viewed')[:6]
+    }
+    return render(request, 'index.html', params)
 
 
 def signup(request):
-
     if request.method == 'POST':
-        print(request.POST.get('name'))
-        print(request.POST)
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
@@ -89,6 +100,7 @@ def article_details(request, article_id):
     return render(request, 'article_details.html', {})
 
 
+@login_required()
 def create_article1(request):
     temp = Article.objects.filter(name=request.user.id)
     items = []
@@ -112,8 +124,8 @@ def create_article1(request):
     return render(request, 'article_form1.html', {'items': items, 'price': str(price)})
 
 
+@login_required()
 def create_article2(request):
-
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
@@ -144,12 +156,13 @@ def create_article2(request):
     return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price)})
 
 
+@login_required()
 def edit_article(request, article_id):
     return render(request, 'article_form2.html', {})
 
 
+@login_required()
 def create_game(request):
-
     if request.method == 'POST':
         form = GameForm(request.POST)
         if form.is_valid():
@@ -171,6 +184,7 @@ def create_game(request):
     return render(request, 'game_form.html', {'form': form})
 
 
+@login_required()
 def edit_game(request, game_id):
     params = {}
     return render(request, 'game_form.html', params)
@@ -180,7 +194,8 @@ def shop_cart(request):
     return render(request, 'shop_cart.html', {})
 
 
-def saved(request):
+@login_required()
+def articles_saved(request):
     # order query to avoid warnings in paginator
     page_obj = Paginator(Article.objects.get_queryset().order_by('id'), 8).page(1)
     # TODO: change to saved articles according to request.user.id
@@ -192,13 +207,80 @@ def saved(request):
                     page_obj = page_obj.paginator.page(page)
             except ValueError:
                 pass
-    return render(request, 'articles_alt.html', {'page_obj': page_obj})
+    return render(request, 'articles_saved.html', {'page_obj': page_obj})
 
 
+@login_required()
+def articles_owned(request, user_id):
+    if not User.objects.filter(id=user_id).exists():
+        return render(request, 'articles_owned.html', {'user_not_found': True})
+    params = {
+        'user2': User.objects.get(id=user_id),
+        'user2_articles_on_sale': Article.objects.filter(seller_id=user_id, Is_sold=False),
+        'user2_articles_sold': Article.objects.filter(seller_id=user_id, Is_sold=True),
+        'user2_articles_purchased': Article.objects.filter(buyer_id=user_id),
+    }
+    return render(request, 'articles_owned.html', params)
+
+
+@login_required()
 def profile(request, user_id):
-    return render(request, 'profile.html', {})
+    if not User.objects.filter(id=user_id).exists():
+        return render(request, 'profile.html', {'user_not_found': True})
+    # articles on sale
+    articles_on_sale = Article.objects.filter(seller_id=user_id, Is_sold=False)
+    # reviews
+    reviews = Review.objects.filter(reviewed_id=user_id)
+
+    params = {
+        'user2': User.objects.get(id=user_id),
+        'user2_articles_on_sale': articles_on_sale[:3],
+        'user2_articles_on_sale_total': articles_on_sale.count(),
+        'user2_articles_sold_total': Article.objects.filter(seller_id=user_id, Is_sold=True).count(),
+        'user2_reviews': reviews,
+    }
+    if UserProfile.objects.filter(user_id=user_id).exists():
+        params['profile'] = UserProfile.objects.get(user_id=user_id)
+    return render(request, 'profile.html', params)
 
 
-def edit_profile(request, user_id):
-    return render(request, 'signup.html', {})
+@login_required()
+def edit_profile(request):
+    form1 = UserForm(request.user.__dict__)
 
+    if request.method == 'POST':
+        if 'user_submit' in request.POST:
+            form1 = UserForm(request.POST)
+            if form1.is_valid():
+                form1.save()
+            else:
+                print("error")
+        elif 'profile_submit' in request.POST:
+            form2 = UserProfileForm(request.POST)
+            if form2.is_valid():
+                form2.save()
+            else:
+                print("error2")
+    params = {
+        'form1': form1
+    }
+    if UserProfile.objects.filter(user_id=request.user.id).exists():
+        user_profile = UserProfile.objects.get(user_id=request.user.id)
+        params['form2'] = UserProfileForm(user_profile.__dict__)
+    return render(request, 'profile_edit.html', params)
+
+
+def settings(request):
+    if not request.user.is_authenticated:
+        return render(request, 'permission_denied.html', {})
+
+    if request.method == 'POST':
+        form = SettingsForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('home')
+    else:
+        form = SettingsForm(request.user)
+
+    return render(request, 'settings.html', {'form': form})

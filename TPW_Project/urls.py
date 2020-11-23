@@ -45,10 +45,12 @@ urlpatterns = [
 
     path('shopcart/', views.shop_cart, name='shop_cart'),
 
-    path('saved/', views.saved, name='saved'),
+    path('owned/articles/<int:user_id>', views.articles_owned, name='articles_owned'),
+    path('saved/articles/', views.articles_saved, name='articles_saved'),
 
-    path('profile/<int:user_id>', views.profile, name='profile'),
+    path('profile/<int:user_id>/', views.profile, name='profile'),
+    path('update/profile/', views.edit_profile, name='edit_profile'),
 
-    path('profile/<int:user_id>', views.profile, name='profile'),
-    path('update/profile/<int:user_id>', views.edit_profile, name='edit_profile'),
+    path('settings/', views.settings, name='settings')
+
 ]

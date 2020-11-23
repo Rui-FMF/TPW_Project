@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="signup-padding">
+        <h3><span><span class="text-main-1">Edit</span> Profile</span></h3>
+        <div class="nk-gap-1"></div>
+
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form1.username.label_tag }}
+                {{ form1.username }}
+                {% if form1.username.errors %}
+                    {% for error in form1.username.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group form-row">
+                <div class="col">
+                    {{ form1.first_name.label_tag }}
+                    {{ form1.first_name }}
+                    {{ form1.first_name.help_text|safe }}
+                </div>
+                <div class="col">
+                    {{ form1.last_name.label_tag }}
+                    {{ form1.last_name }}
+                    {{ form1.last_name.help_text|safe }}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form1.email.label_tag }}
+                {{ form1.email }}
+                {% if form1.email.errors %}
+                    {% for error in form1.email.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="nk-gap-1"></div>
+            <div class="row vertical-gap">
+                <div class="col-md-6">
+                    <button type="submit"
+                            class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block"
+                            name="user_submit">Apply Changes
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+
+
+

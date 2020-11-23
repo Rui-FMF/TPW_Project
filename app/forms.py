@@ -1,11 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, UserChangeForm
 from django.core.files.images import get_image_dimensions   # python3.9 -m pip install --upgrade Pillow
 from app.models import *
 
 
 class LoginForm(AuthenticationForm):
-
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
@@ -31,6 +30,30 @@ class SignupForm(UserCreationForm):
             attrs={'class': 'form-control', 'placeholder': 'Password'})
         self.fields['password2'].widget = forms.PasswordInput(
             attrs={'class': 'form-control', 'placeholder': 'Confirm Password'})
+
+
+class SettingsForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(SettingsForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Old Password'})
+        self.fields['new_password1'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'New Password'})
+        self.fields['new_password2'].widget = forms.PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Confirm New Password'})
+
+
+class UserForm(UserChangeForm):
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.',
+                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.',
+                                widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}))
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'email@example.com'}))
+
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
 
 
 class UserProfileForm(forms.ModelForm):

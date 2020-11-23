@@ -70,11 +70,13 @@
                                 <h3 class="nk-product-title h5"><a
                                         href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
                                 <div class="nk-gap-1"></div>
-                                <div class="nk-product-rating" data-rating="3.5"></div>
+                                <div>
+                                    <div class="nk-product-rating" data-rating="{% article_rating a.id %}"></div>
+                                    ({% user_reviews_number a.id %})
+                                </div>
                                 <div class="nk-gap-1"></div>
-                                <!-- TODO: change to a.description when done -->
-                                A hundred thousand grateful loves to your dear papa and mamma . Is your poor brother
-                                recovered of his rack - punch ? Oh, dear!Oh, dear!How men should beware of wicked
+                                {{ a.description|make_list|slice:':140'|join:'' }}{% if a.description|length > 140 %}
+                                    (...){% endif %}
                                 <div class="nk-gap-2"></div>
                                 <div class="nk-product-price">{{ a.total_price }} €</div>
                                 <div class="nk-gap-1"></div>

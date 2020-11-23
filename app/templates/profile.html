@@ -1,158 +1,191 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    {% load static %}
+    {% load static tags %}
 
     <div class="nk-main">
 
         <div class="container">
-            <h3 class="nk-decorated-h-2"><span>Profile</span></h3>
-            <div class="nk-gap-1"></div>
 
-            <div class="row vertical-gap">
-                <div class="col-lg-8">
-
-                    <!-- START: Teammate Card -->
-                    <div class="nk-teammate-card">
-                        <div class="nk-teammate-card-photo">
-                            <img src="{% static 'assets/images/teammate-1.png' %}" alt="Faker">
-                        </div>
-
-                        <div class="nk-teammate-card-info">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td colspan="2">
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td><strong class="h5">Name:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                                <td><strong class="h5">SANG-HYEOK LEE</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong class="h5">Username:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                                <td><strong class="h5">Faker</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong class="h5">Gender:</strong>&nbsp;&nbsp;&nbsp;</td>
-                                                <td><strong class="h5">Male</strong></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong class="h3">4.3</strong>
-                                    </td>
-                                    <td>
-                                        <strong class="h5">Reviews Rating</strong>
-                                        <div>Average rating from the buyers' testimonies.</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong class="h3">8</strong>
-                                    </td>
-                                    <td>
-                                        <strong class="h5">Articles On Sale</strong>
-                                        <div>...</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong class="h3">64</strong>
-                                    </td>
-                                    <td>
-                                        <strong class="h5">Articles Sold</strong>
-                                        <div>...</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            {% if user_not_found %}
+                <div class="nk-info-box text-danger">
+                    <div class="nk-info-box-icon">
+                        <i class="ion-close-round"></i>
                     </div>
-                    <!-- END: Teammate Card -->
-
-                    <!-- START: Biography -->
-                    <div class="nk-gap-3"></div>
-                    <h3 class="nk-decorated-h-2"><span>Biography</span></h3>
-                    <p>At first, for some time, I was not able to answer him one word; but as he had taken me in his
-                        arms I held fast by him, or I should have fallen to the ground. I confess this side of the
-                        country was much pleasanter than mine; but yet I had not the least inclination to remove</p>
-                    <p>For as I was fixed in my habitation it became natural to me, and I seemed all the while I was
-                        here to be as it were upon a journey, and from home. However, I travelled along the shore of the
-                        sea towards the east, I suppose about twelve miles, and then setting up a great pole upon the
-                        shore for a mark, I concluded I would go home again, and that the next journey I took should be
-                        on the other side of the island east from my dwelling, and so round till I came to my post
-                        again.</p>
-                    <p>Thus much I thought proper to tell you in relation to yourself, and to the trust I reposed in
-                        you. However, many of the most learned and wise adhere to the new scheme of expressing
-                        themselves by things; which has only this inconvenience attending it, that if a man's</p>
-                    <p>I have often beheld two of those sages almost sinking under the weight of their packs, like
-                        pedlars among us, who, when they met in the street, would lay down their loads, open their
-                        sacks, and hold conversation for an hour together; then put up their implements</p>
-                    <!-- END: Biography -->
-
+                    <h3>Error!</h3>
+                    <em>User not Found: the requested user does not exist.</em>
                 </div>
-                <div class="col-lg-4 nk-sidebar-sticky-parent" style="">
-                    <!--
-                        START: Sidebar
+            {% else %}
 
-                        Additional Classes:
-                            .nk-sidebar-left
-                            .nk-sidebar-right
-                            .nk-sidebar-sticky
-                    -->
-                    <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
-                        <div class="" style="">
+            <h2 class="nk-decorated-h"><span><span class="text-main-1">
+                {% if user.id == user2.id %}My{% else %}{{ user2.username }}{% endif %}
+            </span> Profile</span></h2>
+                <div class="nk-gap-2"></div>
+
+                <!-- START: User Card -->
+                <div class="row justify-content-sm-center nk-teammate-card">
+                    <div class="nk-teammate-card-photo pr-lg-5">
+                        <img src="{% static 'assets/images/teammate-1.png' %}" alt="{{ user2.username }}">
+                    </div>
+
+                    <div class="nk-teammate-card-info">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td><strong class="h5">Name:</strong>&nbsp;&nbsp;&nbsp;</td>
+                                            <td><strong
+                                                    class="h5">{{ user2.first_name }} {{ user2.last_name }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong class="h5">Username:</strong>&nbsp;&nbsp;&nbsp;</td>
+                                            <td><strong class="h5">{{ user2.username }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong class="h5">Email:</strong>&nbsp;&nbsp;&nbsp;</td>
+                                            <td><strong class="h5">{{ user2.email }}</strong></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="h3">{% user_rating user2.id %}</strong>
+                                </td>
+                                <td>
+                                    <strong class="h5">Reviews Rating</strong>
+                                    <div>Average rating from the buyers' testimonies.</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="h3">{{ user2_articles_on_sale_total }}</strong>
+                                </td>
+                                <td>
+                                    <strong class="h5">Articles On Sale</strong>
+                                    <div>...</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong class="h3">{{ user2_articles_sold_total }}</strong>
+                                </td>
+                                <td>
+                                    <strong class="h5">Articles Sold</strong>
+                                    <div>...</div>
+                                </td>
+                            </tr>
+                            {% if user.id == user2.id %}
+                                <tr>
+                                    <td colspan="2" class="text-right">
+                                        <a href="{% url 'edit_profile' %}" class="nk-btn nk-btn-lg nk-btn-rounded nk-btn-color-white">Edit
+                                            Profile</a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END: User Card -->
+
+                <div class="row vertical-gap">
+                    <div class="col-lg-8">
+
+                        <!-- START: Biography -->
+                        <div class="nk-gap-3"></div>
+                        <h3 class="nk-decorated-h-2"><span>Biography</span></h3>
+                        {% if profile.biography %}
+                            <p>
+                                {{ profile.biography }}
+                            </p>
+                        {% else %}
+                            <div style="height:100px; display:flex;">
+                                <div style="margin: auto; font-weight: bold;">
+                                    {% if user.id == user2.id %}
+                                        This user has no biography...
+                                    {% else %}
+                                        You have no biography...
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!-- END: Biography -->
+
+                        <!-- START: Reviews -->
+                        <div class="nk-gap-2"></div>
+                        <h3 class="nk-decorated-h-2"><span><span class="text-main-1">{{ user2_reviews|length }}</span> Reviews</span>
+                        </h3>
+                        <div class="nk-gap"></div>
+                        <div class="nk-comments">
+                            {% for r in user2_reviews %}
+                                <div class="nk-comment">
+                                    <div class="nk-comment-meta">
+                                        <img src="{% static 'assets/images/avatar-3.jpg' %}" alt="Wolfenstein"
+                                             class="rounded-circle" width="35"> by <a
+                                            href="#">Wolfenstein</a>in {{ r.date_posted|date:"D M, Y" }}
+                                    </div>
+                                    <div class="nk-comment-text">
+                                        <p>{{ r.description }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- END: Reviews -->
+
+                    </div>
+
+                    <div class="col-lg-4 nk-sidebar-sticky-parent" style="">
+                        <!--
+                            START: Sidebar
+
+                            Additional Classes:
+                                .nk-sidebar-left
+                                .nk-sidebar-right
+                                .nk-sidebar-sticky
+                        -->
+                        <div class="nk-gap-3"></div>
+                        <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+                            <div class="" style="">
+
                                 <div class="nk-widget nk-widget-highlighted">
-                                    <h4 class="nk-widget-title"><span><span class="text-main-1">User</span> Articles</span>
+                                    <h4 class="nk-widget-title"><span><span class="text-main-1">
+                                    {% if user.id == user2.id %}My{% else %}{{ user2.username }}{% endif %}
+                                </span> Articles</span>
                                     </h4>
                                     <div class="nk-widget-content">
+                                        {% for a in user2_articles_on_sale %}
+                                            <div class="nk-widget-post">
+                                                <a href="{% url 'article_details' a.id %}" class="nk-post-image">
+                                                    <img src="/static/assets/images/product-1-xs.jpg"
+                                                         alt="So saying he unbuckled">
+                                                </a>
+                                                <h3 class="nk-post-title"><a href="{% url 'article_details' a.id %}">
+                                                    {{ a.name }}
+                                                </a></h3>
+                                                <div class="nk-product-price">€ 23.00</div>
+                                            </div>
+                                        {% endfor %}
 
-                                        <div class="nk-widget-post">
-                                            <a href="/article/1/" class="nk-post-image">
-                                                <img src="/static/assets/images/product-1-xs.jpg"
-                                                     alt="So saying he unbuckled">
-                                            </a>
-                                            <h3 class="nk-post-title"><a href="/article/1/">So saying he
-                                                unbuckled</a></h3>
-                                            <div class="nk-product-rating" data-rating="4"></div>
-                                            <div class="nk-product-price">€ 23.00</div>
+                                        <div class="nk-gap-2"></div>
+                                        <div class="text-center">
+                                            <button class="nk-btn nk-btn-rounded nk-btn-color-main-1">View More</button>
                                         </div>
-
-                                        <div class="nk-widget-post">
-                                            <a href="/article/1/" class="nk-post-image">
-                                                <img src="/static/assets/images/product-2-xs.jpg"
-                                                     alt="However, I have reason">
-                                            </a>
-                                            <h3 class="nk-post-title"><a href="/article/1/">However, I have
-                                                reason</a></h3>
-                                            <div class="nk-product-rating" data-rating="2.5"></div>
-                                            <div class="nk-product-price">€ 32.00</div>
-                                        </div>
-
-                                        <div class="nk-widget-post">
-                                            <a href="/article/1/" class="nk-post-image">
-                                                <img src="/static/assets/images/product-3-xs.jpg"
-                                                     alt="It was some time before">
-                                            </a>
-                                            <h3 class="nk-post-title"><a href="/article/1/">It was some time
-                                                before</a></h3>
-                                            <div class="nk-product-rating" data-rating="5"></div>
-                                            <div class="nk-product-price">€ 14.00</div>
-                                        </div>
-
                                     </div>
                                 </div>
 
 
                             </div>
-                    </aside>
-                    <!-- END: Sidebar -->
+                        </aside>
+                        <!-- END: Sidebar -->
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
 
         <div class="nk-gap-2"></div>
