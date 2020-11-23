@@ -186,8 +186,27 @@ def create_game(request):
 
 @login_required()
 def edit_game(request, game_id):
-    params = {}
-    return render(request, 'game_form.html', params)
+    if request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            g = Game.objects.get(id=game_id)
+            g.name = form.cleaned_data['name']
+            g.price = form.cleaned_data['price']
+            g.release_year = form.cleaned_data['release_year']
+            g.publisher = form.cleaned_data['publisher']
+            g.genre = form.cleaned_data['genre']
+            g.condition = form.cleaned_data['condition']
+            g.rating = form.cleaned_data['rating']
+            g.platform = form.cleaned_data['platform']
+            g.save()
+            return HttpResponseRedirect(reverse('create_article1'))
+    else:
+        g = Game.objects.get(id=game_id)
+        initial = {}
+        for field in ('name', 'price', 'release_year', 'publisher', 'genre', 'condition', 'rating', 'platform'):
+            initial[field] = getattr(g, field)
+        form = GameForm(initial=initial)
+    return render(request, 'game_form.html', {'form': form})
 
 
 def shop_cart(request):
