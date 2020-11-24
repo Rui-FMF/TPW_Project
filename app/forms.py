@@ -98,6 +98,11 @@ class UserProfileForm(forms.ModelForm):
         return avatar
 
 
+class ReviewForm(forms.Form):
+    rate = forms.IntegerField(max_value=5, min_value=0)
+    message = forms.CharField(max_length=2000, required=False)
+
+
 class ArticleForm(forms.Form):
     name = forms.CharField(max_length=70, label="*Title",
                            widget=forms.TextInput(attrs={'class': 'form-control'}))

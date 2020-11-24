@@ -62,20 +62,28 @@
 
                                     <h2 class="nk-product-title h3">{{ article.name }}</h2>
 
+                                <div class="nk-post-share d-flex">
+                                    <span class="h5">Seller:  </span>
+                                    <span class="h5" style="margin-left: auto"><a href="">{{ article.seller.username }}</a></span>
+                                </div>
+
                                     <!-- START: Add to -->
                                     <div class="nk-gap-2"></div>
+
                                     <form action="." method="post" class="nk-product-addtocart" novalidate="novalidate">
                                         {% csrf_token %}
+
+                                        <div class="nk-gap-1"></div>
                                         <div class="nk-product-price">{{ article.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
                                         <div class="text-white font-weight-bold">Shipping Fee:&emsp;&emsp;&emsp;{{ article.ShippingFee }} €</div>
                                         <div class="text-white font-weight-bold">Shipping Time:&emsp;&emsp;{{ article.ShippingTime }} days</div>
                                         <div class="nk-gap-3"></div>
                                         <div class="row justify-content-start">
-                                            <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px">
+                                            <button type="submit" name="add_cart" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px">
                                                 Add to Cart
                                             </button>
-                                            <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px">
+                                            <button type="submit" name="add_saved" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px">
                                                 Add to Saved
                                             </button>
                                         </div>
@@ -99,6 +107,7 @@
                                             <strong class="text-white">Customer Rating:</strong>
                                             <div class="nk-gap"></div>
                                             <div class="nk-product-rating" data-rating="{% article_rating article.id %}"></div>
+                                            ({% user_reviews_number article.id %})
                                             <div class="nk-gap"></div>
                                         </div>
                                     </div>
@@ -119,7 +128,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#tab-reviews" role="tab" data-toggle="tab"
-                                           aria-selected="false">Reviews ({{ reviews|length }})</a>
+                                           aria-selected="false">User Reviews ({{ reviews|length }})</a>
                                     </li>
                                 </ul>
 
@@ -173,46 +182,35 @@
                                         <div class="nk-reply">
                                             <form action="." method="post" class="nk-form" novalidate="novalidate">
                                                 {% csrf_token %}
-                                                <div class="row vertical-gap sm-gap">
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control required" name="name"
-                                                               placeholder="Name *">
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" class="form-control required" name="title"
-                                                               placeholder="Title *">
-                                                    </div>
-                                                </div>
-                                                <div class="nk-gap-1"></div>
                                                 <textarea class="form-control required" name="message" rows="5"
                                                           placeholder="Your Review *" aria-required="true"></textarea>
                                                 <div class="nk-gap-1"></div>
                                                 <div class="nk-rating">
-                                                    <input type="radio" id="review-rate-5" name="review-rate" value="5">
+                                                    <input type="radio" id="review-rate-5" name="rate" value="5">
                                                     <label for="review-rate-5">
                                                         <span><i class="far fa-star"></i></span>
                                                         <span><i class="fa fa-star"></i></span>
                                                     </label>
 
-                                                    <input type="radio" id="review-rate-4" name="review-rate" value="4">
+                                                    <input type="radio" id="review-rate-4" name="rate" value="4">
                                                     <label for="review-rate-4">
                                                         <span><i class="far fa-star"></i></span>
                                                         <span><i class="fa fa-star"></i></span>
                                                     </label>
 
-                                                    <input type="radio" id="review-rate-3" name="review-rate" value="3">
+                                                    <input type="radio" id="review-rate-3" name="rate" value="3">
                                                     <label for="review-rate-3">
                                                         <span><i class="far fa-star"></i></span>
                                                         <span><i class="fa fa-star"></i></span>
                                                     </label>
 
-                                                    <input type="radio" id="review-rate-2" name="review-rate" value="2">
+                                                    <input type="radio" id="review-rate-2" name="rate" value="2">
                                                     <label for="review-rate-2">
                                                         <span><i class="far fa-star"></i></span>
                                                         <span><i class="fa fa-star"></i></span>
                                                     </label>
 
-                                                    <input type="radio" id="review-rate-1" name="review-rate" value="1">
+                                                    <input type="radio" id="review-rate-1" name="rate" value="1">
                                                     <label for="review-rate-1">
                                                         <span><i class="far fa-star"></i></span>
                                                         <span><i class="fa fa-star"></i></span>
@@ -283,6 +281,7 @@
                                                 {{ ra.name }}
                                             </a></h3>
                                             <div class="nk-product-rating" data-rating="{% article_rating ra.id %}"></div>
+                                            ({% user_reviews_number ra.id %})
                                             <div class="nk-product-price">{{ ra.total_price }} €</div>
                                         </div>
                                         {% endfor %}

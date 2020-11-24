@@ -115,6 +115,25 @@ def article_details(request, article_id):
         'article_tags': article_tags,
         'related_articles': related_articles,
     }
+    if request.method == 'POST':
+        if 'add_cart' in request.POST:
+            ...
+        elif 'add_saved' in request.POST:
+            ...
+        elif 'review' in request.POST:
+            print(request.POST)
+            form = ReviewForm(request.POST)
+            print(form.non_field_errors())
+            if form.is_valid():
+                r = Review(
+                    rate=form.cleaned_data['rate'],
+                    description=form.cleaned_data['message'],
+                    reviewer=request.user,
+                    reviewed=article.seller,
+                )
+                r.save()
+            else:
+                print('not valid brah')
     return render(request, 'article_details.html', params)
 
 
