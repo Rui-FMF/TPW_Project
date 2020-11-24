@@ -109,6 +109,8 @@ def article_details(request, article_id):
         return render(request, 'article_details.html', {'article_not_found': True})
 
     article = Article.objects.get(id=article_id)
+    article.times_viewed = article.times_viewed + 1
+    article.save()
     article_tags = {t.name for t in article.tag.all()}
     related_articles = [ra for ra in Article.objects.filter(tag__name__in=article_tags).order_by('-times_viewed')
                         if ra.id != article_id]
@@ -254,9 +256,10 @@ def create_game(request):
             condition = form.cleaned_data['condition']
             rating = form.cleaned_data['rating']
             platform = form.cleaned_data['platform']
+            image = form.cleaned_data['image']
             a = Article.objects.get(name=request.user.id)
             g = Game(name=name, price=price, release_year=release_year, publisher=publisher,
-                     genre=genre, condition=condition, rating=rating, platform=platform, pertaining_article=a)
+                     genre=genre, condition=condition, rating=rating, platform=platform, image=image, pertaining_article=a)
             g.save()
             return HttpResponseRedirect(reverse('create_article1'))
     else:
@@ -300,12 +303,13 @@ def edit_game(request, game_id):
             g.condition = form.cleaned_data['condition']
             g.rating = form.cleaned_data['rating']
             g.platform = form.cleaned_data['platform']
+            g.image = form.cleaned_data['image']
             g.save()
             return HttpResponseRedirect(reverse('create_article1'))
     else:
         g = Game.objects.get(id=game_id)
         initial = {}
-        for field in ('name', 'price', 'release_year', 'publisher', 'genre', 'condition', 'rating', 'platform'):
+        for field in ('name', 'price', 'release_year', 'publisher', 'genre', 'condition', 'rating', 'platform', 'image'):
             initial[field] = getattr(g, field)
         form = GameForm(initial=initial)
     return render(request, 'game_form.html', {'form': form})
@@ -368,9 +372,17 @@ def shop_cart(request):
 @login_required()
 def articles_saved(request):
     # order query to avoid warnings in paginator
+    if request.method == 'POST':
+        if 'add_cart' in request.POST:
+            aid = int(request.POST["add_cart"])
+            a = Article.objects.get(id=aid)
+            a.shop_cart.add(request.user)
+        elif "del" in request.POST:
+            aid = int(request.POST["del"])
+            a = Article.objects.get(id=aid)
+            a.saved.remove(request.user)
     query = Article.objects.filter(saved=request.user).order_by('id')
     page_obj = Paginator(query, 8).page(1)
-    # TODO: change to saved articles according to request.user.id
     if request.method == 'GET':
         if 'page' in request.GET:
             try:
