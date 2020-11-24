@@ -13,10 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
+
+from django.conf import settings
 from app import views
 from app.forms import LoginForm
 
@@ -24,6 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.home, name='home'),
+    # path('', include('django_app.urls')),
 
     path('login/', auth_views.LoginView.as_view(template_name="index.html", authentication_form=LoginForm), name='login'),
     path('logout', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
@@ -32,7 +36,7 @@ urlpatterns = [
 
     path('articles/', views.articles, name='articles'),
     path('articles/<str:article_type>/', views.articles, name='articles_type'),
-    path('articles/<str:article_type>/<str:article_platform>/', views.articles, name='articles_type_platform'),
+    path('articles/games/<str:article_platform>/', views.articles, name='articles_platform'),
 
     path('article/<int:article_id>/', views.article_details, name='article_details'),
 
@@ -57,3 +61,9 @@ urlpatterns = [
     path('settings/', views.settings, name='settings')
 
 ]
+
+# Serving the media files in development mode
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += staticfiles_urlpatterns()

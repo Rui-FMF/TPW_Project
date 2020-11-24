@@ -5,6 +5,7 @@
         <h3><span><span class="text-main-1">Edit</span> Profile</span></h3>
         <div class="nk-gap-1"></div>
 
+        <div class="nk-box-2 bg-dark-2">
         <form action="." method="post">
             {% csrf_token %}
             <div class="form-group">
@@ -39,16 +40,53 @@
             </div>
 
             <div class="nk-gap-1"></div>
-            <div class="row vertical-gap">
-                <div class="col-md-6">
+            <div class="row vertical-gap justify-content-end">
+                <div class="col-md-5">
                     <button type="submit"
                             class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block"
                             name="user_submit">Apply Changes
                     </button>
                 </div>
-
             </div>
         </form>
+        </div>
+
+        <div class="nk-gap-2"></div>
+
+        <div class="nk-box-2 bg-dark-2">
+        <form action="." method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form2.avatar.label_tag }}
+                <br>
+                {{ form2.avatar }}
+                {% if form2.avatar.errors %}
+                    {% for error in form2.avatar.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form2.biography.label_tag }}
+                {{ form2.biography }}
+                {% if form2.biography.errors %}
+                    {% for error in form2.biography.errors %}
+                        <li><a href="#" class="error">{{ error|escape }}</a></li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="nk-gap-1"></div>
+            <div class="row vertical-gap justify-content-end">
+                <div class="col-md-5">
+                    <button type="submit"
+                            class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block"
+                            name="profile_submit">Apply Changes
+                    </button>
+                </div>
+            </div>
+        </form>
+        </div>
     </div>
 {% endblock %}
 

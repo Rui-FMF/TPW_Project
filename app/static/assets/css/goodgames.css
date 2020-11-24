@@ -8873,9 +8873,14 @@ div.nk-error {
     background-color: #090b0d;
 }
 
-/*.nk-teammate-card .nk-teammate-card-photo {*/
-/*    padding-right: 40px;*/
-/*}*/
+.nk-teammate-card .nk-teammate-card-photo {
+    width: 40%;
+    margin: auto;
+}
+
+.nk-teammate-card .nk-teammate-card-info {
+    width: 50%;
+}
 
 .nk-teammate-card .nk-teammate-card-photo img {
     width: 100%;
@@ -8892,6 +8897,15 @@ div.nk-error {
 
 .nk-teammate-card .nk-teammate-card-info > table > tbody > tr + tr > td {
     border-top: 1px dotted rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 1200px) {
+    .nk-teammate-card .nk-teammate-card-photo {
+        width: 35%;
+    }
+    .nk-teammate-card .nk-teammate-card-info {
+        width: 60%;
+    }
 }
 
 @media (max-width: 767px) {

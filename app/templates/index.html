@@ -150,11 +150,11 @@
                     <div class="col-lg-4">
                         <div class="nk-feature-1">
                             <div class="nk-feature-icon">
-                                <img src="{% static 'assets/images/icon-platform-' %}{{ p.0 }}.png" alt="">
+                                <img src="{% static 'assets/images/icon-platform-' %}{{ p.0 }}.png" alt="{{ p.1 }}">
                             </div>
                             <div class="nk-feature-cont">
                                 <h3 class="nk-feature-title"><a href="#">{{ p.1 }}</a></h3>
-                                <h3 class="nk-feature-title text-main-1"><a href="#">View Games</a></h3>
+                                <h3 class="nk-feature-title text-main-1"><a href="{% url 'articles_platform' p.0 %}">View Games</a></h3>
                             </div>
                         </div>
                     </div>
