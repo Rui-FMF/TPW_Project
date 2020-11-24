@@ -5,7 +5,8 @@ from django.contrib.auth import login, authenticate, update_session_auth_hash
 from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models import Avg, Sum
+from django.db import transaction, IntegrityError
 
 from app.forms import *
 from app.models import *
@@ -23,7 +24,6 @@ def home(request):
     #     rate=Review.objects.filter(
     #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
     # ).order_by('total_votes')
-    Item.objects.all().delete()
     params = {
         'platforms': Game.PLATFORM_CHOICES,
         'popular_articles': Article.objects.order_by('-times_viewed')[:6]
@@ -55,25 +55,27 @@ def articles(request, article_type=None, article_platform=None):
     form = {
         'search': '',
         'price': (0, 1200),
-        'popular_tags': Tag.objects.filter(is_popular=True),
     }
     if request.method == 'GET':
+        queryset = Article.objects.get_queryset().filter(
+            Is_sold=False,
+            name__iregex=r'\b.*[a-zA-Z]+.*\b'
+        ).order_by("id")
+
         if 'search' in request.GET:
             form['search'] = request.GET['search']
+            queryset = queryset.filter(name__icontains=form['search'])
         if 'tag' in request.GET:
             form['tag'] = request.GET['tag']
+            queryset = queryset.filter(tag__name__iexact=form['tag'])
         if 'price' in request.GET:
             try:
                 form['price'] = [int(p) for p in request.GET['price'].split(',')]
             except ValueError:
                 pass
+            queryset = queryset.filter(total_price__range=form['price'])
         # filter and order query to avoid warnings in paginator
-        queryset = Article.objects.get_queryset().filter(
-            Is_sold=False, name__icontains=form['search'],
-            total_price__range=form['price'],
-            # tag=form['tag'],
-            name__iregex=r'\b.*[a-zA-Z]+.*\b'
-        ).order_by("id")
+
         if article_type:
             if article_type == 'games':
                 queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id).exists()]
@@ -98,6 +100,7 @@ def articles(request, article_type=None, article_platform=None):
             'page_obj': page_obj,
             'form': form,
         }
+    params['popular_tags'] = Tag.objects.filter(is_popular=True)
     return render(request, 'articles.html', params)
 
 
@@ -106,9 +109,9 @@ def article_details(request, article_id):
         return render(request, 'article_details.html', {'article_not_found': True})
 
     article = Article.objects.get(id=article_id)
-    article_tags = {t.name for i in Item.objects.filter(pertaining_article=article_id) for t in i.tag.all()}
-    related_articles = [ra for ra in Article.objects.all().order_by('-times_viewed') if ra.id != article_id
-                        and Item.objects.filter(pertaining_article=ra.id, tag__name__in=article_tags).exists()]
+    article_tags = {t.name for t in article.tag.all()}
+    related_articles = [ra for ra in Article.objects.filter(tag__name__in=article_tags).order_by('-times_viewed')
+                        if ra.id != article_id]
     params = {
         'article': article,
         'items': Item.objects.filter(pertaining_article=article_id),
@@ -118,13 +121,11 @@ def article_details(request, article_id):
     }
     if request.method == 'POST':
         if 'add_cart' in request.POST:
-            ...
+            article.shop_cart.add(request.user)
         elif 'add_saved' in request.POST:
             ...
         elif 'review' in request.POST:
-            print(request.POST)
             form = ReviewForm(request.POST)
-            print(form.non_field_errors())
             if form.is_valid():
                 r = Review(
                     rate=form.cleaned_data['rate'],
@@ -329,8 +330,34 @@ def edit_console(request, console_id):
     return render(request, 'console_form.html', {'form': form})
 
 
+@transaction.non_atomic_requests
+def buy_articles(request):
+    articles_on_cart = Article.objects.filter(shop_cart=request.user)
+    try:
+        with transaction.atomic():
+            if articles_on_cart.filter(Is_sold=True).exists():      # already bought by another user
+                raise IntegrityError
+            articles_on_cart.update(Is_sold=True, buyer=request.user)
+    except IntegrityError:
+        articles_on_cart.update(shop_cart=None)
+        return False
+    return True
+
+
+@login_required()
 def shop_cart(request):
-    return render(request, 'shop_cart.html', {})
+    articles_on_cart = Article.objects.filter(shop_cart=request.user)
+    subtotal = articles_on_cart.aggregate(Sum('total_price'))['total_price__sum']
+    fee_total = articles_on_cart.aggregate(Sum('ShippingFee'))['ShippingFee__sum']
+    # articles_on_cart.update(shop_cart=None) #TODO: testar se da erro (para ver se a transaction esta bem feita)
+    params = {
+        'subtotal': subtotal,
+        'fee_total': fee_total,
+        'total': subtotal + fee_total if any((subtotal, fee_total)) else None,
+    }
+    if request.method == 'POST':
+        params['error'] = buy_articles(request)
+    return render(request, 'shop_cart.html', params)
 
 
 @login_required()

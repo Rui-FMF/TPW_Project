@@ -1,8 +1,9 @@
-from app.forms import LoginForm
+from app.forms import LoginForm, Article
 
 
-def login(request):
+def navbar(request):
     kwargs = {
+        'articles_on_cart': Article.objects.filter(shop_cart=request.user),
         'login_form': LoginForm(),
     }
     if request.method == 'POST':
