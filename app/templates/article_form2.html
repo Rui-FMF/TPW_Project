@@ -12,7 +12,7 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-sm-2 col-form-label">Games</div>
+            <div class="col-sm-2 col-form-label">Items</div>
             <div class="col-sm-10">
                 <ul class="list-group">
                 {% ifequal items.count 0 %}
@@ -29,16 +29,23 @@
         </div>
 
         <div class="form-group row">
-            {{ form.shipping_time.label_tag }}
+            {{ form.description.label_tag }}
             <div class="col-sm-10">
-                {{ form.shipping_time }}
+                {{ form.description }}
             </div>
         </div>
 
         <div class="form-group row">
-            {{ form.shipping_fee.label_tag }}
+            {{ form.ShippingTime.label_tag }}
             <div class="col-sm-10">
-                {{ form.shipping_fee }}
+                {{ form.ShippingTime }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            {{ form.ShippingFee.label_tag }}
+            <div class="col-sm-10">
+                {{ form.ShippingFee }}
             </div>
         </div>
 
@@ -50,6 +57,9 @@
         </div>
 
         <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" name="to_phase1" class="btn btn-primary">Go Back</button>
+            </div>
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Sell Article</button>
             </div>
