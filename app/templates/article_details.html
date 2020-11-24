@@ -64,7 +64,7 @@
 
                                 <div class="nk-post-share d-flex">
                                     <span class="h5">Seller:  </span>
-                                    <span class="h5" style="margin-left: auto"><a href="">{{ article.seller.username }}</a></span>
+                                    <span class="h5" style="margin-left: auto"><a href="{% url 'profile' article.seller.id %}">{{ article.seller.username }}</a></span>
                                 </div>
 
                                     <!-- START: Add to -->
@@ -98,7 +98,7 @@
                                             <strong class="text-white">Tags:</strong>
                                             <div class="nk-gap"></div>
                                             {% for name in article_tags %}
-                                                <a href="#">{{ name }}</a>, <!--TODO: fazer url -->
+                                                <a href="{% url 'articles' %}?tag={{ name }}">{{ name }}</a>,
                                             {% endfor %}
                                             <div class="nk-gap"></div>
                                         </div>

@@ -1,3 +1,4 @@
+import PIL.Image
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, update_session_auth_hash
@@ -22,7 +23,6 @@ def home(request):
     #     rate=Review.objects.filter(
     #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
     # ).order_by('total_votes')
-
     params = {
         'platforms': Game.PLATFORM_CHOICES,
         'popular_articles': Article.objects.order_by('-times_viewed')[:6]
@@ -54,24 +54,24 @@ def articles(request, article_type=None, article_platform=None):
     form = {
         'search': '',
         'price': (0, 1200),
+        'popular_tags': Tag.objects.filter(is_popular=True),
     }
     if request.method == 'GET':
-        # apply search bar
-        if all(p in request.GET for p in ('submit_search', 'search')):
+        if 'search' in request.GET:
             form['search'] = request.GET['search']
-        # apply all
-        else:
-            if 'search' in request.GET:
-                form['search'] = request.GET['search']
-            if 'price' in request.GET:
-                try:
-                    form['price'] = [int(p) for p in request.GET['price'].split(',')]
-                except ValueError:
-                    pass
+        if 'tag' in request.GET:
+            form['tag'] = request.GET['tag']
+        if 'price' in request.GET:
+            try:
+                form['price'] = [int(p) for p in request.GET['price'].split(',')]
+            except ValueError:
+                pass
         # filter and order query to avoid warnings in paginator
         queryset = Article.objects.get_queryset().filter(
             Is_sold=False, name__icontains=form['search'],
-            total_price__range=form['price']
+            total_price__range=form['price'],
+            # tag=form['tag'],
+            name__iregex=r'\b.*[a-zA-Z]+.*\b'
         ).order_by("id")
         if article_type:
             if article_type == 'games':
@@ -132,8 +132,6 @@ def article_details(request, article_id):
                     reviewed=article.seller,
                 )
                 r.save()
-            else:
-                print('not valid brah')
     return render(request, 'article_details.html', params)
 
 
@@ -197,7 +195,7 @@ def create_article2(request):
         for i in a.items_in_article.all():
             items.append(i)
             price += i.price
-        initial = {'name': 'MyArticle'}
+        initial = {}
         for field in ('ShippingFee', 'ShippingTime', 'description'):
             initial[field] = getattr(a, field)
         form = ArticleForm(initial=initial)
@@ -306,12 +304,6 @@ def articles_saved(request):
 
 @login_required()
 def articles_owned(request, user_id):
-    if (request.method == 'POST') and "del" in request.POST:
-        aid = int(request.POST["del"])
-        a = Article.objects.get(id=aid)
-        for i in a.items_in_article.all():
-            i.delete()
-        a.delete()
     if not User.objects.filter(id=user_id).exists():
         return render(request, 'articles_owned.html', {'user_not_found': True})
     params = {
@@ -329,13 +321,15 @@ def profile(request, user_id):
         return render(request, 'profile.html', {'user_not_found': True})
     # articles on sale
     articles_on_sale = Article.objects.filter(seller_id=user_id, Is_sold=False)
+    articles_on_sale = [a for a in articles_on_sale if not a.name.isdigit()]
+
     # reviews
     reviews = Review.objects.filter(reviewed_id=user_id)
 
     params = {
         'user2': User.objects.get(id=user_id),
         'user2_articles_on_sale': articles_on_sale[:3],
-        'user2_articles_on_sale_total': articles_on_sale.count(),
+        'user2_articles_on_sale_total': len(articles_on_sale),
         'user2_articles_sold_total': Article.objects.filter(seller_id=user_id, Is_sold=True).count(),
         'user2_reviews': reviews,
     }
@@ -362,10 +356,11 @@ def edit_profile(request):
                 return redirect('profile', user_id=request.user.id)
         elif 'profile_submit' in request.POST:
             form2 = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-            print(form2.errors)
             if form2.is_valid():
                 form2.save()
                 return redirect('profile', user_id=request.user.id)
+            # else:
+            #     print('not valid')
     params = {
         'form1': form1,
         'form2': form2,
