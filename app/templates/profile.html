@@ -24,8 +24,8 @@
 
                 <!-- START: User Card -->
                 <div class="row justify-content-sm-center nk-teammate-card">
-                    <div class="nk-teammate-card-photo pr-lg-5">
-                        <img src="{% static 'assets/images/teammate-1.png' %}" alt="{{ user2.username }}">
+                    <div class="nk-teammate-card-photo">
+                        <img src="{% user_img_path user2.id %}" alt="{{ user2.username }}">
                     </div>
 
                     <div class="nk-teammate-card-info">
@@ -126,9 +126,10 @@
                             {% for r in user2_reviews %}
                                 <div class="nk-comment">
                                     <div class="nk-comment-meta">
-                                        <img src="{% static 'assets/images/avatar-3.jpg' %}" alt="Wolfenstein"
+                                        <img src="{% user_img_path r.reviewer.id %}" alt="{{ r.reviewer.username }}"
                                              class="rounded-circle" width="35"> by <a
-                                            href="#">Wolfenstein</a>in {{ r.date_posted|date:"D M, Y" }}
+                                            href="{% url 'profile' r.reviewer.id %}">{{ r.reviewer.username }}</a> in {{ r.date_posted|date:"n F, Y" }}
+                                        <div class="nk-review-rating" data-rating="{{ r.rate }}"></div>
                                     </div>
                                     <div class="nk-comment-text">
                                         <p>{{ r.description }}</p>
@@ -162,13 +163,13 @@
                                         {% for a in user2_articles_on_sale %}
                                             <div class="nk-widget-post">
                                                 <a href="{% url 'article_details' a.id %}" class="nk-post-image">
-                                                    <img src="/static/assets/images/product-1-xs.jpg"
-                                                         alt="So saying he unbuckled">
+                                                    <img src="{% item_img_path a.items_in_article.all.0.id %}"
+                                                         alt="{{ a.name }}">
                                                 </a>
                                                 <h3 class="nk-post-title"><a href="{% url 'article_details' a.id %}">
                                                     {{ a.name }}
                                                 </a></h3>
-                                                <div class="nk-product-price">€ 23.00</div>
+                                                <div class="nk-product-price">{{ a.total_price }} €</div>
                                             </div>
                                         {% endfor %}
 

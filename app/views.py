@@ -9,6 +9,7 @@ from django.db.models import Avg
 from app.forms import *
 from app.models import *
 
+
 # Create your views here.
 
 
@@ -41,14 +42,13 @@ def signup(request):
             return redirect('home')
     else:
         form = SignupForm()
-
     return render(request, 'signup.html', {'form': form})
 
 
 def articles(request, article_type=None, article_platform=None):
     if article_type is not None and article_type not in ('games', 'consoles'):
         return HttpResponse(status=404)
-    if article_platform is not None and article_platform not in Game.PLATFORM_CHOICES:
+    if article_platform is not None and article_platform not in [k for k, v in Game.PLATFORM_CHOICES]:
         return HttpResponse(status=404)
     params = {}
     form = {
@@ -72,12 +72,16 @@ def articles(request, article_type=None, article_platform=None):
         queryset = Article.objects.get_queryset().filter(
             Is_sold=False, name__icontains=form['search'],
             total_price__range=form['price']
-            ).order_by("id")
-        if article_type == 'games':
-            queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id).exists()]
-        elif article_type == 'consoles':
-            queryset = [a for a in queryset if Console.objects.filter(pertaining_article=a.id).exists()]
-            pass
+        ).order_by("id")
+        if article_type:
+            if article_type == 'games':
+                queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id).exists()]
+            elif article_type == 'consoles':
+                queryset = [a for a in queryset if Console.objects.filter(pertaining_article=a.id).exists()]
+        elif article_platform:
+            article_type = 'games'
+            queryset = [a for a in queryset if Game.objects.filter(pertaining_article=a.id, platform=article_platform).exists()]
+            form['article_platform'] = article_platform
         page_obj = Paginator(queryset, 16).page(1)
         # get page
         if 'page' in request.GET:
@@ -97,7 +101,21 @@ def articles(request, article_type=None, article_platform=None):
 
 
 def article_details(request, article_id):
-    return render(request, 'article_details.html', {})
+    if not Article.objects.filter(id=article_id).exists():
+        return render(request, 'article_details.html', {'article_not_found': True})
+
+    article = Article.objects.get(id=article_id)
+    article_tags = {t.name for i in Item.objects.filter(pertaining_article=article_id) for t in i.tag.all()}
+    related_articles = [ra for ra in Article.objects.all().order_by('-times_viewed') if ra.id != article_id
+                        and Item.objects.filter(pertaining_article=ra.id, tag__name__in=article_tags).exists()]
+    params = {
+        'article': article,
+        'items': Item.objects.filter(pertaining_article=article_id),
+        'reviews': Review.objects.filter(reviewed=article.seller.id),
+        'article_tags': article_tags,
+        'related_articles': related_articles,
+    }
+    return render(request, 'article_details.html', params)
 
 
 @login_required()
@@ -119,7 +137,7 @@ def create_article1(request):
             price += i.price
 
     if request.method == 'POST' and "del" not in request.POST:
-        if len(items)>0:
+        if len(items) > 0:
             return HttpResponseRedirect(reverse('create_article2'))
     return render(request, 'article_form1.html', {'items': items, 'price': str(price)})
 
@@ -186,27 +204,8 @@ def create_game(request):
 
 @login_required()
 def edit_game(request, game_id):
-    if request.method == 'POST':
-        form = GameForm(request.POST)
-        if form.is_valid():
-            g = Game.objects.get(id=game_id)
-            g.name = form.cleaned_data['name']
-            g.price = form.cleaned_data['price']
-            g.release_year = form.cleaned_data['release_year']
-            g.publisher = form.cleaned_data['publisher']
-            g.genre = form.cleaned_data['genre']
-            g.condition = form.cleaned_data['condition']
-            g.rating = form.cleaned_data['rating']
-            g.platform = form.cleaned_data['platform']
-            g.save()
-            return HttpResponseRedirect(reverse('create_article1'))
-    else:
-        g = Game.objects.get(id=game_id)
-        initial = {}
-        for field in ('name', 'price', 'release_year', 'publisher', 'genre', 'condition', 'rating', 'platform'):
-            initial[field] = getattr(g, field)
-        form = GameForm(initial=initial)
-    return render(request, 'game_form.html', {'form': form})
+    params = {}
+    return render(request, 'game_form.html', params)
 
 
 def shop_cart(request):
@@ -265,41 +264,41 @@ def profile(request, user_id):
 
 @login_required()
 def edit_profile(request):
-    form1 = UserForm(request.user.__dict__)
+    form1 = UserForm(instance=request.user)
+    if UserProfile.objects.filter(user_id=request.user.id).exists():
+        form2 = UserProfileForm(instance=UserProfile.objects.get(user_id=request.user.id))
+    else:
+        u = UserProfile(user_id=request.user.id)
+        u.save()
+        form2 = UserProfileForm()
 
     if request.method == 'POST':
         if 'user_submit' in request.POST:
-            form1 = UserForm(request.POST)
+            form1 = UserForm(request.POST, instance=request.user)
             if form1.is_valid():
                 form1.save()
-            else:
-                print("error")
+                return redirect('profile', user_id=request.user.id)
         elif 'profile_submit' in request.POST:
-            form2 = UserProfileForm(request.POST)
+            form2 = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+            print(form2.errors)
             if form2.is_valid():
                 form2.save()
-            else:
-                print("error2")
+                return redirect('profile', user_id=request.user.id)
     params = {
-        'form1': form1
+        'form1': form1,
+        'form2': form2,
     }
-    if UserProfile.objects.filter(user_id=request.user.id).exists():
-        user_profile = UserProfile.objects.get(user_id=request.user.id)
-        params['form2'] = UserProfileForm(user_profile.__dict__)
     return render(request, 'profile_edit.html', params)
 
 
+@login_required()
 def settings(request):
-    if not request.user.is_authenticated:
-        return render(request, 'permission_denied.html', {})
-
     if request.method == 'POST':
         form = SettingsForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect('home')
+            return redirect('profile', user_id=request.user.id)
     else:
         form = SettingsForm(request.user)
-
     return render(request, 'settings.html', {'form': form})

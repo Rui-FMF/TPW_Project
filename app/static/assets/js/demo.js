@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.nk-product-rating').each(function() {
+    $('.nk-product-rating, .nk-review-rating').each(function() {
         let rate = $(this).attr('data-rating');
         for (let i = 1; i <= 5; i++) {
             if (rate < i - 0.5)

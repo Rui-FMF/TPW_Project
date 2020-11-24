@@ -3,12 +3,23 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+from app.storage import OverwriteStorage
+
+
+def user_profile_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, 'profile')
+
+
+def user_item_path(instance, filename):
+    return 'user_{0}/article_{1}/item_{2}'.format(
+        instance.pertaining_article.seller.id, instance.pertaining_article.id, instance.id)
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     biography = models.CharField(max_length=2000, blank=True)
-    avatar = models.ImageField()
+    avatar = models.ImageField(upload_to=user_profile_path, max_length=None, storage=OverwriteStorage(), null=True)
 
 
 class Review(models.Model):
@@ -52,6 +63,9 @@ class Article(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Articles_posted")
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name="Articles_bought")
 
+    def get_items(self):
+        return self.items_in_article.all()
+
     def __str__(self):
         return self.name
 
@@ -59,6 +73,7 @@ class Article(models.Model):
 class Item(models.Model):
     price = models.DecimalField(max_digits=13, decimal_places=2)
     name = models.CharField(max_length=70)
+    image = models.ImageField(upload_to=user_item_path, max_length=None, storage=OverwriteStorage(), null=True)
 
     BRAND_NEW = 'B'
     LIKE_NEW = 'L'

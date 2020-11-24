@@ -17,7 +17,7 @@
         </ul>
     </li>
     <li class=" nk-drop-item demo-js">
-        <a href="#">Hello {{ user.username }}</a>
+        <a href="{% url 'profile' user.id %}">Hello {{ user.username }}</a>
         <ul class="dropdown">
             <li>
                 <a href="{% url 'profile' user.id %}">Profile</a>

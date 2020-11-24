@@ -51,22 +51,31 @@ class UserForm(UserChangeForm):
     email = forms.EmailField(max_length=254, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'email@example.com'}))
 
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name')
+
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget = forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
 
 
 class UserProfileForm(forms.ModelForm):
+    biography = forms.CharField(max_length=2000, required=False, help_text='Optional.',
+                                widget=forms.Textarea(attrs={'class': 'form-control'}))
+
     class Meta:
         model = UserProfile
-        fields = ('avatar',)
+        fields = ('avatar', 'biography',)
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
         try:
             w, h = get_image_dimensions(avatar)
             # validate dimensions
-            max_width = max_height = 100
+            max_width = max_height = 500
+            if w != h:
+                raise forms.ValidationError(
+                    'Please use an image with proportion 1:1.')
             if w > max_width or h > max_height:
                 raise forms.ValidationError(
                     u'Please use an image that is '
@@ -77,9 +86,9 @@ class UserProfileForm(forms.ModelForm):
                 raise forms.ValidationError(u'Please use a JPEG, '
                     'GIF or PNG image.')
             # validate file size
-            if len(avatar) > (20 * 1024):
+            if len(avatar) > (100 * 1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 20k.')
+                    u'Avatar file size may not exceed 100k.')
         except AttributeError:
             """
             Handles case when we are updating the user profile
