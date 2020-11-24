@@ -170,17 +170,22 @@ def create_article2(request):
             ShippingFee = form.cleaned_data['ShippingFee']
             ShippingTime = form.cleaned_data['ShippingTime']
             description = form.cleaned_data['description']
+            tag = form.cleaned_data['tag']
             a = Article.objects.get(name=request.user.id)
             if "to_phase1" in request.POST:
                 a.ShippingFee = ShippingFee
                 a.ShippingTime = ShippingTime
                 a.description = description
+                for t in tag:
+                    a.tag.add(t)
                 a.save()
                 return HttpResponseRedirect(reverse('create_article1'))
             else:
                 a2 = Article(name=name, ShippingFee=ShippingFee, ShippingTime=ShippingTime, description=description, seller=request.user,
                              times_viewed=0)
                 a2.save()
+                for t in tag:
+                    a2.tag.add(t)
                 total_price = 0
                 for i in a.items_in_article.all():
                     i.pertaining_article = a2
@@ -197,16 +202,37 @@ def create_article2(request):
         for i in a.items_in_article.all():
             items.append(i)
             price += i.price
-        initial = {'name': 'MyArticle'}
+        initial = {'name': 'MyArticle', 'tag': a.tag.all()}
         for field in ('ShippingFee', 'ShippingTime', 'description'):
             initial[field] = getattr(a, field)
         form = ArticleForm(initial=initial)
-    return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price)})
+    return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price), 'edit': False})
 
 
 @login_required()
 def edit_article(request, article_id):
-    return render(request, 'article_form2.html', {})
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            a = Article.objects.get(id=article_id)
+            a.name = form.cleaned_data['name']
+            a.ShippingFee = form.cleaned_data['ShippingFee']
+            a.ShippingTime = form.cleaned_data['ShippingTime']
+            a.description = form.cleaned_data['description']
+            a.save()
+            return HttpResponseRedirect(reverse('articles_owned', args=[request.user.id]))
+    else:
+        a = Article.objects.get(id=article_id)
+        items = []
+        price = 0
+        for i in a.items_in_article.all():
+            items.append(i)
+            price += i.price
+        initial = {'tag': a.tag.all()}
+        for field in ('ShippingFee', 'ShippingTime', 'description', 'name'):
+            initial[field] = getattr(a, field)
+        form = ArticleForm(initial=initial)
+    return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price), 'edit': True})
 
 
 @login_required()
@@ -256,8 +282,27 @@ def create_console(request):
 
 @login_required()
 def edit_game(request, game_id):
-    params = {}
-    return render(request, 'game_form.html', params)
+    if request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            g = Game.objects.get(id=game_id)
+            g.name = form.cleaned_data['name']
+            g.price = form.cleaned_data['price']
+            g.release_year = form.cleaned_data['release_year']
+            g.publisher = form.cleaned_data['publisher']
+            g.genre = form.cleaned_data['genre']
+            g.condition = form.cleaned_data['condition']
+            g.rating = form.cleaned_data['rating']
+            g.platform = form.cleaned_data['platform']
+            g.save()
+            return HttpResponseRedirect(reverse('create_article1'))
+    else:
+        g = Game.objects.get(id=game_id)
+        initial = {}
+        for field in ('name', 'price', 'release_year', 'publisher', 'genre', 'condition', 'rating', 'platform'):
+            initial[field] = getattr(g, field)
+        form = GameForm(initial=initial)
+    return render(request, 'game_form.html', {'form': form})
 
 
 @login_required()
