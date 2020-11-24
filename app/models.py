@@ -15,7 +15,7 @@ def user_profile_path(instance, filename):
 
 def user_item_path(instance, filename):
     return 'user_{0}/article_{1}/item_{2}'.format(
-        instance.pertaining_article.seller.id, instance.pertaining_article.id, instance.id)
+        instance.pertaining_article.seller.id, instance.pertaining_article.id, instance.id2)
 
 
 class UserProfile(models.Model):
@@ -75,7 +75,7 @@ class Article(models.Model):
 
 
 class Item(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id2 = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     price = models.DecimalField(max_digits=13, decimal_places=2)
     name = models.CharField(max_length=70)
     image = models.ImageField(upload_to=user_item_path, max_length=None, storage=OverwriteStorage(), null=True)

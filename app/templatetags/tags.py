@@ -1,5 +1,5 @@
 from django import template
-from app.models import Article, Review, Item
+from app.models import Article, Review, Item, UserProfile
 from django.db.models import Avg
 from django.conf import settings
 
@@ -51,7 +51,9 @@ def param_replace(context, **kwargs):
 def user_img_path(context, user_id):
     if not user_id:
         return ''
-    return settings.MEDIA_URL + 'user_{0}/{1}'.format(user_id, 'profile')
+    if not UserProfile.objects.filter(user_id=user_id).exists():
+        return settings.MEDIA_URL + 'default_profile'
+    return settings.MEDIA_URL + 'user_{0}/profile'.format(user_id)
 
 
 @register.simple_tag(takes_context=True)
