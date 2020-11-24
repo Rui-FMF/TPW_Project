@@ -130,29 +130,40 @@ def create_article2(request):
         form = ArticleForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            shipping_fee = form.cleaned_data['shipping_fee']
-            shipping_time = form.cleaned_data['shipping_time']
+            ShippingFee = form.cleaned_data['ShippingFee']
+            ShippingTime = form.cleaned_data['ShippingTime']
+            description = form.cleaned_data['description']
             a = Article.objects.get(name=request.user.id)
-            a2 = Article(name=name, ShippingFee=shipping_fee, ShippingTime=shipping_time, seller=request.user,
-                         times_viewed=0)
-            a2.save()
-            total_price = 0
-            for i in a.items_in_article.all():
-                i.pertaining_article = a2
-                i.save()
-                total_price += i.price
-            a2.total_price = total_price
-            Article.objects.get(name=request.user.id).delete()
-            a2.save()
-            return HttpResponseRedirect(reverse('home'))
+            if "to_phase1" in request.POST:
+                a.ShippingFee = ShippingFee
+                a.ShippingTime = ShippingTime
+                a.description = description
+                a.save()
+                return HttpResponseRedirect(reverse('create_article1'))
+            else:
+                a2 = Article(name=name, ShippingFee=ShippingFee, ShippingTime=ShippingTime, description=description, seller=request.user,
+                             times_viewed=0)
+                a2.save()
+                total_price = 0
+                for i in a.items_in_article.all():
+                    i.pertaining_article = a2
+                    i.save()
+                    total_price += i.price
+                a2.total_price = total_price
+                Article.objects.get(name=request.user.id).delete()
+                a2.save()
+                return HttpResponseRedirect(reverse('home'))
     else:
-        form = ArticleForm()
         a = Article.objects.filter(name=request.user.id)[0]
         items = []
         price = 0
         for i in a.items_in_article.all():
             items.append(i)
             price += i.price
+        initial = {}
+        for field in ('ShippingFee', 'ShippingTime', 'description'):
+            initial[field] = getattr(a, field)
+        form = ArticleForm(initial=initial)
     return render(request, 'article_form2.html', {'form': form, 'items': items, 'price': str(price)})
 
 
@@ -185,6 +196,28 @@ def create_game(request):
 
 
 @login_required()
+def create_console(request):
+    if request.method == 'POST':
+        form = ConsoleForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            price = form.cleaned_data['price']
+            release_year = form.cleaned_data['release_year']
+            brand = form.cleaned_data['brand']
+            storage_capacity = form.cleaned_data['storage_capacity']
+            color = form.cleaned_data['color']
+            condition = form.cleaned_data['condition']
+            a = Article.objects.get(name=request.user.id)
+            c = Console(name=name, price=price, release_year=release_year, brand=brand,
+                        storage_capacity=storage_capacity, color=color, condition=condition, pertaining_article=a)
+            c.save()
+            return HttpResponseRedirect(reverse('create_article1'))
+    else:
+        form = ConsoleForm()
+    return render(request, 'console_form.html', {'form': form})
+
+
+@login_required()
 def edit_game(request, game_id):
     if request.method == 'POST':
         form = GameForm(request.POST)
@@ -207,6 +240,30 @@ def edit_game(request, game_id):
             initial[field] = getattr(g, field)
         form = GameForm(initial=initial)
     return render(request, 'game_form.html', {'form': form})
+
+
+@login_required()
+def edit_console(request, console_id):
+    if request.method == 'POST':
+        form = ConsoleForm(request.POST)
+        if form.is_valid():
+            c = Console.objects.get(id=console_id)
+            c.name = form.cleaned_data['name']
+            c.price = form.cleaned_data['price']
+            c.release_year = form.cleaned_data['release_year']
+            c.brand = form.cleaned_data['brand']
+            c.storage_capacity = form.cleaned_data['storage_capacity']
+            c.color = form.cleaned_data['color']
+            c.condition = form.cleaned_data['condition']
+            c.save()
+            return HttpResponseRedirect(reverse('create_article1'))
+    else:
+        c = Console.objects.get(id=console_id)
+        initial = {}
+        for field in ('name', 'price', 'release_year', 'brand', 'storage_capacity', 'color', 'condition'):
+            initial[field] = getattr(c, field)
+        form = ConsoleForm(initial=initial)
+    return render(request, 'console_form.html', {'form': form})
 
 
 def shop_cart(request):

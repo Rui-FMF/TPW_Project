@@ -43,6 +43,9 @@ urlpatterns = [
     path('new/article/game/', views.create_game, name='create_game'),
     path('update/article/game/<int:game_id>/', views.edit_game, name='edit_game'),
 
+    path('new/article/console/', views.create_console, name='create_console'),
+    path('update/article/console/<int:console_id>/', views.edit_console, name='edit_console'),
+
     path('shopcart/', views.shop_cart, name='shop_cart'),
 
     path('owned/articles/<int:user_id>', views.articles_owned, name='articles_owned'),

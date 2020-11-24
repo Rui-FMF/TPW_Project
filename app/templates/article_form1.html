@@ -8,11 +8,18 @@
             <div class="col-sm-2 col-form-label">Items</div>
             <div class="col-sm-10">
                 <ul class="list-group">
+                {% load class_tag %}
                 {% if items|length > 0 %}
                     {% for item in items %}
-                    <li class="list-group-item">
-                        {{ item }} <a href="{% url 'edit_game' item.id %}">Edit</a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
-                    </li>
+                        {% if item|is_game %}
+                            <li class="list-group-item">
+                        {{ item }} <a href="{% url 'edit_game' item.id %}"><button type="button" class="btn btn-secondary mt-2">Edit Game</button></a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item">
+                        {{ item }} <a href="{% url 'edit_console' item.id %}"><button type="button" class="btn btn-secondary mt-2">Edit Console</button></a>&nbsp;<button type="submit" class="btn btn-secondary mt-2" name="del" value={{item.id}} >Delete</button>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <li class="list-group-item">Add an item...</li>
@@ -20,6 +27,9 @@
                 </ul>
                 <a href="{% url 'create_game' %}">
                     <button type="button" class="btn btn-secondary mt-2">Add Game</button>
+                </a>
+                <a href="{% url 'create_console' %}">
+                    <button type="button" class="btn btn-secondary mt-2">Add Console</button>
                 </a>
             </div>
         </div>

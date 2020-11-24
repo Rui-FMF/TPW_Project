@@ -92,11 +92,13 @@ class UserProfileForm(forms.ModelForm):
 class ArticleForm(forms.Form):
     name = forms.CharField(max_length=70, label="*Title",
                            widget=forms.TextInput(attrs={'class': 'form-control'}))
-    shipping_fee = forms.DecimalField(max_value=1000000000000, decimal_places=2, label="Shipping Fee",
+    ShippingFee = forms.DecimalField(max_value=1000000000000, decimal_places=2, label="Shipping Fee",
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
-    shipping_time = forms.ChoiceField(choices=Article.SHIPPING_TIME_CHOICES, label="*Shipping Time",
+    ShippingTime = forms.ChoiceField(choices=Article.SHIPPING_TIME_CHOICES, label="*Shipping Time",
                                       widget=forms.Select(attrs={'class': 'form-control'}))
+
+    description = forms.CharField(max_length=2000, required=False, label="Description", widget=forms.Textarea(attrs={"rows":5, "cols":20}))
 
 
 class ItemForm(forms.Form):
