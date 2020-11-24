@@ -1,4 +1,6 @@
 import datetime
+import uuid
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
@@ -19,7 +21,8 @@ def user_item_path(instance, filename):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     biography = models.CharField(max_length=2000, blank=True)
-    avatar = models.ImageField(upload_to=user_profile_path, max_length=None, storage=OverwriteStorage(), null=True)
+    avatar = models.ImageField(upload_to=user_profile_path, max_length=None, storage=OverwriteStorage(),
+                               default='app/media/default_profile')
 
 
 class Review(models.Model):
@@ -72,6 +75,7 @@ class Article(models.Model):
 
 
 class Item(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     price = models.DecimalField(max_digits=13, decimal_places=2)
     name = models.CharField(max_length=70)
     image = models.ImageField(upload_to=user_item_path, max_length=None, storage=OverwriteStorage(), null=True)

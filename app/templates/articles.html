@@ -15,13 +15,15 @@
             <div class="row vertical-gap">
                 {% for p in platforms %}
                     <div class="col-lg-4">
-                        <div class="nk-feature-1" {% if form.article_platform == p.0 %}style="border: 1px solid #dd163b"{% endif %}>
+                        <div class="nk-feature-1"
+                             {% if form.article_platform == p.0 %}style="border: 1px solid #dd163b"{% endif %}>
                             <div class="nk-feature-icon">
                                 <img src="{% static 'assets/images/icon-platform-' %}{{ p.0 }}.png" alt="{{ p.1 }}">
                             </div>
                             <div class="nk-feature-cont">
                                 <h3 class="nk-feature-title"><a href="#">{{ p.1 }}</a></h3>
-                                <h3 class="nk-feature-title text-main-1"><a href="{% url 'articles_platform' p.0 %}">View Games</a></h3>
+                                <h3 class="nk-feature-title text-main-1"><a href="{% url 'articles_platform' p.0 %}">View
+                                    Games</a></h3>
                             </div>
                         </div>
                     </div>
@@ -55,13 +57,15 @@
                                         </h3>
                                         <div class="nk-gap-1"></div>
                                         <div>
-                                            <div class="nk-product-rating" data-rating="{% article_rating a.id %}"></div>
+                                            <div class="nk-product-rating"
+                                                 data-rating="{% article_rating a.id %}"></div>
                                             ({% user_reviews_number a.id %})
                                         </div>
                                         <div class="nk-gap-1"></div>
                                         <div class="nk-product-price">{{ a.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
-                                        <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</a> <!-- TODO -->
+                                        <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</a>
+                                        <!-- TODO -->
                                     </div>
                                 </div>
                             </div>
@@ -121,34 +125,27 @@
                         <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
                             <div class="nk-widget">
                                 <div class="nk-widget-content">
-                                    <form action="#" class="nk-form nk-form-style-1" novalidate="novalidate">
-                                        <div class="input-group">
-                                            <input type="text" name="search" class="form-control"
-                                                   placeholder="Type something..." value="{{ form.search }}">
-                                            <button type="submit" name="submit_search"
-                                                    class="nk-btn nk-btn-color-main-1"><span
-                                                    class="ion-search"></span>
-                                            </button>
-                                        </div>
-                                    </form>
+                                    <div class="input-group">
+                                        <input type="text" name="search" class="form-control"
+                                               placeholder="Type something..." value="{{ form.search }}">
+                                        <button type="submit"
+                                                class="nk-btn nk-btn-color-main-1"><span
+                                                class="ion-search"></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="nk-widget nk-widget-highlighted">
-                                <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span>
+                                <h4 class="nk-widget-title"><span><span class="text-main-1">Tag</span> Menu</span>
                                 </h4>
                                 <div class="nk-widget-content">
                                     <input type="text" name="?" value="" hidden>
                                     <ul class="nk-widget-categories">
-                                        <li><a href="#">RTS</a></li>
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">RPG</a></li>
-                                        <li><a href="#">MMO</a></li>
-                                        <li><a href="#">MOBA</a></li>
-                                        <li><a href="#">Adventure</a></li>
-                                        <li><a href="#">Indie</a></li>
-                                        <li><a href="#">Strategy</a></li>
-                                        <li><a href="#">Racing</a></li>
-                                        <li><a href="#">Simulator</a></li>
+                                        {% for t in popular_tags %}
+                                            <li><a href="?{% param_replace tag=t.name %}"
+                                                   {% if t == tag %}class="active"{% endif %}>tag.name</a></li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
                             </div>
@@ -165,33 +162,28 @@
                                                value="{{ form.price.0 }},{{ form.price.1 }}" style="display: none;">
                                         <div class="nk-gap"></div>
                                         <div>
-                                            <div class="text-white mt-4">
+                                            <div class="text-white mt-4 float-left">
                                                 PRICE:
-                                                <strong class="text-main-1"><span
-                                                        class="nk-input-slider-value-0"></span> €</strong>
+                                                <strong class="text-main-1">€ <span
+                                                        class="nk-input-slider-value-0">200</span></strong>
                                                 -
-                                                <strong class="text-main-1"><span
-                                                        class="nk-input-slider-value-1"></span> €</strong>
+                                                <strong class="text-main-1">€ <span
+                                                        class="nk-input-slider-value-1">1200</span></strong>
                                             </div>
+                                            <button type="submit"
+                                                    class="nk-btn nk-btn-rounded nk-btn-color-white float-right">Apply
+                                            </button>
                                         </div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="nk-widget nk-widget-highlighted">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button type="submit"
-                                                class="nk-btn nk-btn-rounded nk-btn-lg nk-btn-color-white"
-                                                style="width: 100%;">Apply
-                                        </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="reset" class="nk-btn nk-btn-rounded nk-btn-lg nk-btn-color-dark-3"
-                                                style="width: 100%;">Reset
-                                        </button>
-                                    </div>
-                                </div>
+                                <a href="{{ request.path }}" class="nk-btn nk-btn-rounded nk-btn-lg nk-btn-color-dark-3 w-100">
+                                    Clear All
+                                </a>
                             </div>
+
                             <div class="nk-gap-2"></div>
 
 
