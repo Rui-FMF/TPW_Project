@@ -98,7 +98,7 @@ class ArticleForm(forms.Form):
     ShippingTime = forms.ChoiceField(choices=Article.SHIPPING_TIME_CHOICES, label="*Shipping Time",
                                       widget=forms.Select(attrs={'class': 'form-control'}))
 
-    description = forms.CharField(max_length=2000, required=False, label="Description", widget=forms.Textarea(attrs={"rows":5, "cols":20}))
+    description = forms.CharField(max_length=2000, required=False, label="Description", widget=forms.Textarea(attrs={"rows": 6}))
 
 
 class ItemForm(forms.Form):

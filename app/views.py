@@ -160,7 +160,7 @@ def create_article2(request):
         for i in a.items_in_article.all():
             items.append(i)
             price += i.price
-        initial = {}
+        initial = {'name': 'MyArticle'}
         for field in ('ShippingFee', 'ShippingTime', 'description'):
             initial[field] = getattr(a, field)
         form = ArticleForm(initial=initial)
@@ -288,6 +288,12 @@ def articles_saved(request):
 
 @login_required()
 def articles_owned(request, user_id):
+    if (request.method == 'POST') and "del" in request.POST:
+        aid = int(request.POST["del"])
+        a = Article.objects.get(id=aid)
+        for i in a.items_in_article.all():
+            i.delete()
+        a.delete()
     if not User.objects.filter(id=user_id).exists():
         return render(request, 'articles_owned.html', {'user_not_found': True})
     params = {

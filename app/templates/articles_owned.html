@@ -52,11 +52,16 @@
                                         <div class="nk-gap-2"></div>
                                         <div class="nk-product-price">{{ a.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
+                                        <form action="." method="post">
+                                        {% csrf_token %}
                                         <div class="nk-gap-1"></div>
                                         {% if not user.id == user2.id %}
                                             <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 ">Add to
                                                 Cart</a>
                                         {% endif %}
+                                            <a href="{% url 'edit_article' a.id %}"><button type="button" class="btn btn-secondary mt-2">Edit</button></a>
+                                            <button type="submit" class="btn btn-secondary mt-2" name="del" value={{a.id}} >Delete</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -48,7 +48,7 @@ urlpatterns = [
 
     path('shopcart/', views.shop_cart, name='shop_cart'),
 
-    path('owned/articles/<int:user_id>', views.articles_owned, name='articles_owned'),
+    path('owned/articles/<int:user_id>/', views.articles_owned, name='articles_owned'),
     path('saved/articles/', views.articles_saved, name='articles_saved'),
 
     path('profile/<int:user_id>/', views.profile, name='profile'),
