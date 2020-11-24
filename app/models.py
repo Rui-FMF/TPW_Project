@@ -39,7 +39,8 @@ class Article(models.Model):
     total_price = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     description = models.CharField(max_length=2000, blank=True)
     ShippingFee = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    Date_Posted = models.DateField().auto_now_add  # used to calculate expected delivery along with duration
+    Date_Posted = models.DateField().auto_now_add
+    tag = models.ManyToManyField('Tag', blank=True)
 
     ONE = 1
     THREE = 3
@@ -97,7 +98,6 @@ class Item(models.Model):
         default=BRAND_NEW,
     )
 
-    tag = models.ManyToManyField('Tag', blank=True)
     pertaining_article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="items_in_article")
 
     def __str__(self):

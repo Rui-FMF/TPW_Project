@@ -114,6 +114,8 @@ class ArticleForm(forms.Form):
 
     description = forms.CharField(max_length=2000, required=False, label="Description", widget=forms.Textarea(attrs={"rows": 6}))
 
+    tag = forms.ModelMultipleChoiceField(label="Tags", required=False, queryset=Tag.objects.all())
+
 
 class ItemForm(forms.Form):
     price = forms.DecimalField(max_digits=1000000000000, decimal_places=2,
@@ -163,3 +165,4 @@ class ConsoleForm(forms.Form):
 
     condition = forms.ChoiceField(choices=Console.CONDITION_CHOICES, label="*Condition",
                                   widget=forms.Select(attrs={'class': 'form-control'}))
+
