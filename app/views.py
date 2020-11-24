@@ -23,6 +23,7 @@ def home(request):
     #     rate=Review.objects.filter(
     #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
     # ).order_by('total_votes')
+    Item.objects.all().delete()
     params = {
         'platforms': Game.PLATFORM_CHOICES,
         'popular_articles': Article.objects.order_by('-times_viewed')[:6]
