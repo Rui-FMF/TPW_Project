@@ -23,7 +23,6 @@ def home(request):
     #     rate=Review.objects.filter(
     #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
     # ).order_by('total_votes')
-    Item.objects.all().delete()
     params = {
         'platforms': Game.PLATFORM_CHOICES,
         'popular_articles': Article.objects.order_by('-times_viewed')[:6]
@@ -120,7 +119,8 @@ def article_details(request, article_id):
         if 'add_cart' in request.POST:
             ...
         elif 'add_saved' in request.POST:
-            ...
+            article.saved.add(request.user)
+            article.save()
         elif 'review' in request.POST:
             print(request.POST)
             form = ReviewForm(request.POST)
@@ -219,6 +219,10 @@ def edit_article(request, article_id):
             a.ShippingFee = form.cleaned_data['ShippingFee']
             a.ShippingTime = form.cleaned_data['ShippingTime']
             a.description = form.cleaned_data['description']
+            tag = form.cleaned_data['tag']
+            a.tag.clear()
+            for t in tag:
+                a.tag.add(t)
             a.save()
             return HttpResponseRedirect(reverse('articles_owned', args=[request.user.id]))
     else:
@@ -336,7 +340,8 @@ def shop_cart(request):
 @login_required()
 def articles_saved(request):
     # order query to avoid warnings in paginator
-    page_obj = Paginator(Article.objects.get_queryset().order_by('id'), 8).page(1)
+    query = Article.objects.filter(saved=request.user).order_by('id')
+    page_obj = Paginator(query, 8).page(1)
     # TODO: change to saved articles according to request.user.id
     if request.method == 'GET':
         if 'page' in request.GET:
@@ -351,6 +356,12 @@ def articles_saved(request):
 
 @login_required()
 def articles_owned(request, user_id):
+    if (request.method == 'POST') and "del" in request.POST:
+        aid = int(request.POST["del"])
+        a = Article.objects.get(id=aid)
+        for i in a.items_in_article.all():
+            i.delete()
+        a.delete()
     if not User.objects.filter(id=user_id).exists():
         return render(request, 'articles_owned.html', {'user_not_found': True})
     params = {
