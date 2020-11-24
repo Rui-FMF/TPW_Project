@@ -34,3 +34,9 @@ a.error {
 .form-control:disabled, .form-control[readonly] {
     background-color: #16181b;
 }
+
+button:disabled {
+	cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.5;
+}

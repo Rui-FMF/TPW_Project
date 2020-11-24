@@ -52,7 +52,7 @@ def user_img_path(context, user_id):
     if not user_id:
         return ''
     if not UserProfile.objects.filter(user_id=user_id).exists():
-        return settings.MEDIA_URL + 'default_profile'
+        return settings.MEDIA_URL + 'default_profile' + str(user_id % 4 + 1)
     return settings.MEDIA_URL + 'user_{0}/profile'.format(user_id)
 
 

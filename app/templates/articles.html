@@ -137,14 +137,16 @@
                             </div>
 
                             <div class="nk-widget nk-widget-highlighted">
-                                <h4 class="nk-widget-title"><span><span class="text-main-1">Tag</span> Menu</span>
+                                <h4 class="nk-widget-title"><span><span class="text-main-1">Popular</span> Tags</span>
                                 </h4>
                                 <div class="nk-widget-content">
                                     <input type="text" name="?" value="" hidden>
                                     <ul class="nk-widget-categories">
                                         {% for t in popular_tags %}
                                             <li><a href="?{% param_replace tag=t.name %}"
-                                                   {% if t == tag %}class="active"{% endif %}>tag.name</a></li>
+                                                {% if t.name == form.tag %}class="text-danger font-weight-bold"{% endif %}>
+                                                {{ t.name }}
+                                            </a></li>
                                         {% endfor %}
                                     </ul>
                                 </div>
