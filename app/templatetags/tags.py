@@ -53,9 +53,7 @@ def user_img_path(context, user_id):
         return ''
     if not UserProfile.objects.filter(user_id=user_id).exists():
         return settings.MEDIA_URL + 'default_' + str(user_id % 4 + 1)
-    elif not UserProfile.objects.get(user_id=user_id).avatar:
-        return settings.MEDIA_URL + 'default_' + str(user_id % 4 + 1)
-    return settings.MEDIA_URL + 'user_{0}/profile'.format(user_id)
+    return settings.MEDIA_URL + str(UserProfile.objects.get(user_id=user_id).avatar)
 
 
 @register.simple_tag(takes_context=True)

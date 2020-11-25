@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    {% load static %}
+    {% load static tags %}
 
     <div class="nk-main">
         <div class="container">
@@ -130,7 +130,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="nk-product-cat">
                             <a class="nk-product-image" href="{% url 'article_details' a.id %}">
-                                <img src="{% static 'assets/images/product-11-xs.jpg' %}" alt="{{ a.name }}">
+                                <img src="{% item_img_path a.items_in_article.all.0.id %}" alt="{{ a.name }}">
                             </a>
                             <div class="nk-product-cont">
                                 <h3 class="nk-product-title h5"><a

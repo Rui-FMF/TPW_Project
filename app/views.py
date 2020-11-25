@@ -373,8 +373,8 @@ def shop_cart(request):
             Article.objects.get(id=request.POST['remove_article']).shop_cart.remove(request.user)
 
     articles_on_cart = Article.objects.filter(shop_cart=request.user)
-    subtotal = articles_on_cart.aggregate(Sum('total_price'))['total_price__sum']
-    fee_total = articles_on_cart.aggregate(Sum('ShippingFee'))['ShippingFee__sum']
+    subtotal = round(articles_on_cart.aggregate(Sum('total_price'))['total_price__sum'], 2)
+    fee_total = round(articles_on_cart.aggregate(Sum('ShippingFee'))['ShippingFee__sum'], 2)
 
     params.update({
         'subtotal': subtotal,

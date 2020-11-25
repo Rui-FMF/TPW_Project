@@ -64,11 +64,13 @@
                                         <div class="nk-gap-1"></div>
                                         <div class="nk-product-price">{{ a.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
-                                        <form action="." method="post">
-                                            {% csrf_token %}
-                                            <input name="add_cart" value="{{ a.id }}" hidden>
-                                            <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</button>
-                                        </form>
+                                        {% if user.is_authenticated %}
+                                            <form action="." method="post">
+                                                {% csrf_token %}
+                                                <input name="add_cart" value="{{ a.id }}" hidden>
+                                                <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</button>
+                                            </form>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
