@@ -16,14 +16,6 @@ from app.models import *
 
 
 def home(request):
-    # TODO: query super fdd
-    # user = Article.objects.get(id=article_id).seller
-    # avg_rate = Review.objects.filter(reviewed=user.id).aggregate(Avg('rate'))['rate__avg']
-    #
-    # product_list = Article.objects.annotate(
-    #     rate=Review.objects.filter(
-    #     reviewed=Article.objects.get(id=article_id).seller.id).aggregate(Avg('rate'))['rate__avg']
-    # ).order_by('total_votes')
     params = {
         'platforms': Game.PLATFORM_CHOICES,
         'popular_articles': Article.objects.order_by('-times_viewed')[:6]
@@ -120,7 +112,7 @@ def article_details(request, article_id):
     article.save()
     article_tags = {t.name for t in article.tag.all()}
     related_articles = [ra for ra in Article.objects.filter(tag__name__in=article_tags).order_by('-times_viewed')
-                        if ra.id != article_id]
+                        if ra.id != article_id][:5]
     params = {
         'article': article,
         'items': Item.objects.filter(pertaining_article=article_id),
@@ -362,9 +354,11 @@ def buy_articles(request):
             articles_on_cart.update(Is_sold=True, buyer=request.user)
             for a in articles_on_cart:
                 a.shop_cart.remove(request.user)
+                a.saved.remove(request.user)
     except IntegrityError:
         for a in articles_on_cart.filter(Is_sold=True):     # reassure integrity
             a.shop_cart.remove(request.user)
+            a.saved.remove(request.user)
         return False
     return True
 
@@ -422,7 +416,7 @@ def articles_saved(request):
             query = query.filter(name__icontains=form['search'])
         if 'condition' in request.GET:
             form['condition'] = request.GET['condition']
-            query = query.filter(items_in_article__condition=form['condition'])
+            query = query.filter(items_in_article__condition=form['condition']).distinct()
         if 'price' in request.GET:
             try:
                 form['price'] = [int(p) for p in request.GET['price'].split(',')]
@@ -444,7 +438,6 @@ def articles_saved(request):
         'page_obj': page_obj,
         'form': form,
     }
-    print(params)
     return render(request, 'articles_saved.html', params)
 
 
@@ -480,7 +473,7 @@ def profile(request, user_id):
 
     params = {
         'user2': User.objects.get(id=user_id),
-        'user2_articles_on_sale': articles_on_sale[:3],
+        'user2_articles_on_sale': articles_on_sale[:5],
         'user2_articles_on_sale_total': len(articles_on_sale),
         'user2_articles_sold_total': Article.objects.filter(seller_id=user_id, Is_sold=True).count(),
         'user2_reviews': reviews,

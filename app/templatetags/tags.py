@@ -53,6 +53,8 @@ def user_img_path(context, user_id):
         return ''
     if not UserProfile.objects.filter(user_id=user_id).exists():
         return settings.MEDIA_URL + 'default_' + str(user_id % 4 + 1)
+    elif not UserProfile.objects.get(user_id=user_id).avatar:
+        return settings.MEDIA_URL + 'default_' + str(user_id % 4 + 1)
     return settings.MEDIA_URL + 'user_{0}/profile'.format(user_id)
 
 
@@ -61,5 +63,7 @@ def item_img_path(context, item_id):
     if not item_id:
         return ''
     item = Item.objects.get(id=item_id)
+    if not item.image:
+        return settings.MEDIA_URL + 'default_' + str(item_id % 4 + 1)
     return settings.MEDIA_URL + 'user_{0}/item_{1}'.format(
         item.pertaining_article.seller.id, item.id2)

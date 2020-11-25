@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     biography = models.CharField(max_length=2000, blank=True)
     avatar = models.ImageField(upload_to=user_profile_path, max_length=None, storage=OverwriteStorage(),
-                               default='app/media/default_profile')
+                               default='default_1')
 
 
 class Review(models.Model):
@@ -39,7 +39,7 @@ class Article(models.Model):
     total_price = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     description = models.CharField(max_length=2000, blank=True)
     ShippingFee = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    Date_Posted = models.DateField().auto_now_add
+    Date_Posted = models.DateField(default=datetime.date.today)
     tag = models.ManyToManyField('Tag', blank=True)
 
     ONE = 1
@@ -65,7 +65,7 @@ class Article(models.Model):
     saved = models.ManyToManyField(User, blank=True, related_name="Articles_saved")
 
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Articles_posted")
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name="Articles_bought")
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="Articles_bought")
 
     def get_items(self):
         return self.items_in_article.all()
