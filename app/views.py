@@ -51,11 +51,12 @@ def articles(request, article_type=None, article_platform=None):
         return HttpResponse(status=404)
     if article_platform is not None and article_platform not in [k for k, v in Game.PLATFORM_CHOICES]:
         return HttpResponse(status=404)
-    params = {}
+
     form = {
         'search': '',
         'price': (0, 1200),
     }
+    # order query to avoid warnings in paginator
     queryset = Article.objects.get_queryset().filter(
         Is_sold=False,
         name__iregex=r'\b.*[a-zA-Z]+.*\b'
@@ -74,7 +75,6 @@ def articles(request, article_type=None, article_platform=None):
             except ValueError:
                 pass
             queryset = queryset.filter(total_price__range=form['price'])
-        # filter and order query to avoid warnings in paginator
 
         if article_type:
             if article_type == 'games':
@@ -398,9 +398,34 @@ def articles_saved(request):
             aid = int(request.POST["del"])
             a = Article.objects.get(id=aid)
             a.saved.remove(request.user)
-    query = Article.objects.filter(saved=request.user).order_by('id')
+
+    form = {
+        'search': '',
+        'price': (0, 1200),
+    }
+    # order query to avoid warnings in paginator
+    query = Article.objects.get_queryset().filter(
+        saved=request.user,
+        name__iregex=r'\b.*[a-zA-Z]+.*\b'
+    ).order_by("id")
     page_obj = Paginator(query, 8).page(1)
+
     if request.method == 'GET':
+        if 'search' in request.GET:
+            form['search'] = request.GET['search']
+            query = query.filter(name__icontains=form['search'])
+        if 'condition' in request.GET:
+            form['condition'] = request.GET['condition']
+            query = query.filter(items_in_article__condition=form['condition'])
+        if 'price' in request.GET:
+            try:
+                form['price'] = [int(p) for p in request.GET['price'].split(',')]
+            except ValueError:
+                pass
+            query = query.filter(total_price__range=form['price'])
+
+        page_obj = Paginator(query, 8).page(1)
+
         if 'page' in request.GET:
             try:
                 page = int(request.GET['page'])
@@ -408,7 +433,13 @@ def articles_saved(request):
                     page_obj = page_obj.paginator.page(page)
             except ValueError:
                 pass
-    return render(request, 'articles_saved.html', {'page_obj': page_obj})
+    params = {
+        'conditions': Item.CONDITION_CHOICES,
+        'page_obj': page_obj,
+        'form': form,
+    }
+    print(params)
+    return render(request, 'articles_saved.html', params)
 
 
 @login_required()
@@ -474,8 +505,6 @@ def edit_profile(request):
             if form2.is_valid():
                 form2.save()
                 return redirect('profile', user_id=request.user.id)
-            # else:
-            #     print('not valid')
     params = {
         'form1': form1,
         'form2': form2,
