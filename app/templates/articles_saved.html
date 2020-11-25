@@ -16,12 +16,13 @@
                     <div class="row vertical-gap">
                         <div class="col-md-4">
                             <select class="form-control">
-                                <option value="" disabled="" selected="">Select Platform</option>
-                                <option value="ps4">PS4</option>
-                                <option value="xbox">Xbox 1</option>
-                                <option value="pc">PC</option>
+                                <option value="" disabled="" selected="">Select Condition</option>
+                                {% for c in conditions %}
+                                    <option value="{{ c.0 }}" {% if form.condition == c.0 %}selected{% endif %}>{{ c.1 }}</option>
+                                {% endfor %}
                             </select>
                         </div>
+                    {{ form.condition }}
                         <div class="col-md-8">
                             <div class="nk-input-slider-inline">
                                 <div class="nk-input-slider">
@@ -35,8 +36,10 @@
                                     <div class="nk-input-slider-input">
                                         <input type="text" name="price-filter" data-slider-min="0"
                                                data-slider-max="1800" data-slider-step="1"
-                                               data-slider-value="[200, 1200]" data-slider-tooltip="hide"
-                                               data-value="200,1275" value="200,1275" style="display: none;">
+                                               data-slider-tooltip="hide"
+                                               data-slider-value="[{{ form.price.0 }}, {{ form.price.1 }}]"
+                                               data-value="{{ form.price.0 }},{{ form.price.1 }}"
+                                               value="{{ form.price.0 }},{{ form.price.1 }}" style="display: none;">
                                     </div>
                                 </div>
                                 <div>
@@ -81,9 +84,9 @@
                                 <div class="nk-product-price">{{ a.total_price }} €</div>
                                 <div class="nk-gap-1"></div>
                                 <form action="." method="post">
-                                {% csrf_token %}
-                                <button type="submit" name="add_cart" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px" value={{a.id}} >Add to Cart</button>
-                                <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-danger nk-btn-hover-color-main-1" name="del" value={{a.id}} >Remove</button>
+                                    {% csrf_token %}
+                                    <button type="submit" name="add_cart" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px" value={{a.id}} >Add to Cart</button>
+                                    <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-danger nk-btn-hover-color-main-1" name="del" value={{a.id}} >Remove</button>
                                 </form>
                             </div>
                         </div>

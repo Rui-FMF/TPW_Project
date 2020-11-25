@@ -14,8 +14,8 @@ def user_profile_path(instance, filename):
 
 
 def user_item_path(instance, filename):
-    return 'user_{0}/article_{1}/item_{2}'.format(
-        instance.pertaining_article.seller.id, instance.pertaining_article.id, instance.id2)
+    return 'user_{0}/item_{1}'.format(
+        instance.pertaining_article.seller.id, instance.id2)
 
 
 class UserProfile(models.Model):
