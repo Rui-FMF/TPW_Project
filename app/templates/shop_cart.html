@@ -4,7 +4,7 @@
     {% load static tags %}
     <div class="nk-main">
         <div class="container">
-            {% if error == True %}
+            {% if success == False %}
                 <div class="nk-info-box text-danger">
                     <div class="nk-info-box-icon">
                         <i class="ion-close-round"></i>
@@ -12,14 +12,16 @@
                     <h3>Error!</h3>
                     <em>Order Canceled: Some article was already bough. Check your cart and try again. </em>
                 </div>
-            {% elif error == False %}
+                <div class="nk-gap-2"></div>
+            {% elif success == True %}
                 <div class="nk-info-box text-success">
                     <div class="nk-info-box-icon">
                         <i class="ion-checkmark-round"></i>
                     </div>
                     <h3>Success!</h3>
-                    <em>Order Completed: You have purchased this articles.</em>
+                    <em>Order Completed: You have purchased these articles.</em>
                 </div>
+                <div class="nk-gap-2"></div>
             {% endif %}
             <h2 class="nk-decorated-h-3"><span>Shop Cart</span></h2>
             <div class="nk-gap-1"></div>
@@ -60,7 +62,9 @@
                         </table>
                         <div class="nk-gap-2"></div>
                         <form method="post" action=".">
-                            <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right"
+                            {% csrf_token %}
+                            <button name="buy" type="submit"
+                                    class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right"
                                     {% if total == None %}disabled{% endif %}>
                                 Place Order
                             </button>
@@ -77,7 +81,7 @@
                     <!-- START: Products in Cart -->
                     <table class="table nk-store-cart-products">
                         <tbody>
-                        {% for ac in article_on_cart %}
+                        {% for ac in articles_on_cart %}
                             <tr>
                                 <td class="nk-product-cart-thumb">
                                     <a href="{% url 'article_details' ac.id %}" class="nk-image-box-1 nk-post-image">
@@ -99,9 +103,21 @@
 
                                     <strong>{{ ac.total_price }} €</strong>
                                 </td>
-                                <td class="nk-product-cart-remove"><a href="#"><span
-                                        class="ion-android-close"></span></a>
+                                <td colspan="2" class="nk-product-cart-price">
+                                    <h5 class="h6">Shipping Fee:</h5>
+                                    <div class="nk-gap-1"></div>
+
+                                    <strong>{{ ac.ShippingFee }} €</strong>
                                 </td>
+                                <form method="post" action="." id="remove-form-{{ forloop.counter }}">
+                                    {% csrf_token %}
+                                    <input name="remove_article" value="{{ ac.id }}" hidden>
+                                    <td class="nk-product-cart-remove">
+                                        <a href="javascript:document.getElementById('remove-form-{{ forloop.counter }}').submit()">
+                                            <span class="ion-android-close"></span>
+                                        </a>
+                                    </td>
+                                </form>
                             </tr>
                         {% endfor %}
 

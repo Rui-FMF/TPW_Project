@@ -56,12 +56,12 @@ def articles(request, article_type=None, article_platform=None):
         'search': '',
         'price': (0, 1200),
     }
-    if request.method == 'GET':
-        queryset = Article.objects.get_queryset().filter(
-            Is_sold=False,
-            name__iregex=r'\b.*[a-zA-Z]+.*\b'
-        ).order_by("id")
+    queryset = Article.objects.get_queryset().filter(
+        Is_sold=False,
+        name__iregex=r'\b.*[a-zA-Z]+.*\b'
+    ).order_by("id")
 
+    if request.method == 'GET':
         if 'search' in request.GET:
             form['search'] = request.GET['search']
             queryset = queryset.filter(name__icontains=form['search'])
@@ -94,13 +94,20 @@ def articles(request, article_type=None, article_platform=None):
                     page_obj = page_obj.paginator.page(page)
             except ValueError:
                 pass
-        params = {
-            'article_type': article_type,
-            'platforms': Game.PLATFORM_CHOICES,
-            'page_obj': page_obj,
-            'form': form,
-        }
-    params['popular_tags'] = Tag.objects.filter(is_popular=True)
+    else:
+        page_obj = Paginator(queryset, 16).page(1)
+
+    if request.method == 'POST':
+        if 'add_cart' in request.POST:
+            Article.objects.get(id=request.POST['add_cart']).shop_cart.add(request.user)
+
+    params = {
+        'article_type': article_type,
+        'platforms': Game.PLATFORM_CHOICES,
+        'page_obj': page_obj,
+        'form': form,
+        'popular_tags': Tag.objects.filter(is_popular=True),
+    }
     return render(request, 'articles.html', params)
 
 
@@ -347,25 +354,35 @@ def buy_articles(request):
             if articles_on_cart.filter(Is_sold=True).exists():      # already bought by another user
                 raise IntegrityError
             articles_on_cart.update(Is_sold=True, buyer=request.user)
+            for a in articles_on_cart:
+                a.shop_cart.remove(request.user)
     except IntegrityError:
-        articles_on_cart.update(shop_cart=None)
+        for a in articles_on_cart.filter(Is_sold=True):     # reassure integrity
+            a.shop_cart.remove(request.user)
         return False
     return True
 
 
 @login_required()
 def shop_cart(request):
+    params = {}
+    if request.method == 'POST':
+        if 'buy' in request.POST: # params['total'] is not None:
+            params['success'] = buy_articles(request)
+        if 'remove_article' in request.POST:
+            Article.objects.get(id=request.POST['remove_article']).shop_cart.remove(request.user)
+
     articles_on_cart = Article.objects.filter(shop_cart=request.user)
     subtotal = articles_on_cart.aggregate(Sum('total_price'))['total_price__sum']
     fee_total = articles_on_cart.aggregate(Sum('ShippingFee'))['ShippingFee__sum']
-    # articles_on_cart.update(shop_cart=None) #TODO: testar se da erro (para ver se a transaction esta bem feita)
-    params = {
+
+    params.update({
         'subtotal': subtotal,
         'fee_total': fee_total,
         'total': subtotal + fee_total if any((subtotal, fee_total)) else None,
-    }
-    if request.method == 'POST':
-        params['error'] = buy_articles(request)
+        'articles_on_cart': articles_on_cart,
+    })
+
     return render(request, 'shop_cart.html', params)
 
 

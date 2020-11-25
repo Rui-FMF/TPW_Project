@@ -52,7 +52,7 @@ def user_img_path(context, user_id):
     if not user_id:
         return ''
     if not UserProfile.objects.filter(user_id=user_id).exists():
-        return settings.MEDIA_URL + 'default_profile' + str(user_id % 4 + 1)
+        return settings.MEDIA_URL + 'default_' + str(user_id % 4 + 1)
     return settings.MEDIA_URL + 'user_{0}/profile'.format(user_id)
 
 
@@ -62,4 +62,4 @@ def item_img_path(context, item_id):
         return ''
     item = Item.objects.get(id=item_id)
     return settings.MEDIA_URL + 'user_{0}/article_{1}/item_{2}'.format(
-        item.pertaining_article.seller.id, item.pertaining_article.id, item.id)
+        item.pertaining_article.seller.id, item.pertaining_article.id, item.id2)

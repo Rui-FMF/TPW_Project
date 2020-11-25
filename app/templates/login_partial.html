@@ -1,8 +1,8 @@
 {% if user.is_authenticated %}
     <li>
         <a href="{% url 'shop_cart' %}">Shop Cart
-            {% if articles_on_cart|length %}
-            <span class="badge badge-danger badge-pill">{{ articles_on_cart|length }}</span>
+            {% if articles_on_cart_total %}
+            <span class="badge badge-danger badge-pill">{{ articles_on_cart_total }}</span>
             {% endif %}
         </a>
     </li>

@@ -64,8 +64,11 @@
                                         <div class="nk-gap-1"></div>
                                         <div class="nk-product-price">{{ a.total_price }} €</div>
                                         <div class="nk-gap-1"></div>
-                                        <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</a>
-                                        <!-- TODO -->
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                            <input name="add_cart" value="{{ a.id }}" hidden>
+                                            <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-dark-3">Add to Cart</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
