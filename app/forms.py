@@ -148,7 +148,7 @@ class GameForm(forms.Form):
     platform = forms.ChoiceField(choices=Game.PLATFORM_CHOICES, label="*Platform",
                                  widget=forms.Select(attrs={'class': 'form-control'}))
 
-    image = forms.ImageField(allow_empty_file=True, required=False, label="Image")
+    image = forms.ImageField(required=False, label="Image")
 
 
 class ConsoleForm(forms.Form):
@@ -168,5 +168,5 @@ class ConsoleForm(forms.Form):
     condition = forms.ChoiceField(choices=Console.CONDITION_CHOICES, label="*Condition",
                                   widget=forms.Select(attrs={'class': 'form-control'}))
 
-    image = forms.ImageField(allow_empty_file=True, required=False, label="Image")
+    image = forms.ImageField(required=False, label="Image")
 

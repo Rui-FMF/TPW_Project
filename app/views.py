@@ -253,7 +253,7 @@ def edit_article(request, article_id):
 @login_required()
 def create_game(request):
     if request.method == 'POST':
-        form = GameForm(request.POST)
+        form = GameForm(request.POST, request.FILES)
         if form.is_valid():
             name = form.cleaned_data['name']
             price = form.cleaned_data['price']
@@ -266,7 +266,9 @@ def create_game(request):
             image = form.cleaned_data['image']
             a = Article.objects.get(name=request.user.id)
             g = Game(name=name, price=price, release_year=release_year, publisher=publisher,
-                     genre=genre, condition=condition, rating=rating, platform=platform, image=image, pertaining_article=a)
+                     genre=genre, condition=condition, rating=rating, platform=platform, pertaining_article=a)
+            g.save()
+            g.image = image
             g.save()
             return HttpResponseRedirect(reverse('create_article1'))
     else:
@@ -286,9 +288,12 @@ def create_console(request):
             storage_capacity = form.cleaned_data['storage_capacity']
             color = form.cleaned_data['color']
             condition = form.cleaned_data['condition']
+            image = form.cleaned_data['image']
             a = Article.objects.get(name=request.user.id)
             c = Console(name=name, price=price, release_year=release_year, brand=brand,
                         storage_capacity=storage_capacity, color=color, condition=condition, pertaining_article=a)
+            c.save()
+            c.image = image
             c.save()
             return HttpResponseRedirect(reverse('create_article1'))
     else:
@@ -335,12 +340,13 @@ def edit_console(request, console_id):
             c.storage_capacity = form.cleaned_data['storage_capacity']
             c.color = form.cleaned_data['color']
             c.condition = form.cleaned_data['condition']
+            c.image = form.cleaned_data['image']
             c.save()
             return HttpResponseRedirect(reverse('create_article1'))
     else:
         c = Console.objects.get(id=console_id)
         initial = {}
-        for field in ('name', 'price', 'release_year', 'brand', 'storage_capacity', 'color', 'condition'):
+        for field in ('name', 'price', 'release_year', 'brand', 'storage_capacity', 'color', 'condition', 'image'):
             initial[field] = getattr(c, field)
         form = ConsoleForm(initial=initial)
     return render(request, 'console_form.html', {'form': form})
