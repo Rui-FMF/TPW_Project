@@ -279,7 +279,7 @@ def create_game(request):
 @login_required()
 def create_console(request):
     if request.method == 'POST':
-        form = ConsoleForm(request.POST)
+        form = ConsoleForm(request.POST, request.FILES)
         if form.is_valid():
             name = form.cleaned_data['name']
             price = form.cleaned_data['price']

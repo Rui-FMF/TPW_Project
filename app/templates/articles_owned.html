@@ -31,40 +31,42 @@
                 {% if user2_articles_on_sale %}
                     <div class="row vertical-gap">
                         {% for a in user2_articles_on_sale %}
-                            <div class="col-lg-6">
-                                <div class="nk-product-cat-2">
-                                    <a class="nk-product-image" href="{% url 'article_details' a.id %}">
-                                        <img src="{% item_img_path a.items_in_article.all.0.id %}" alt="{{ a.name }}">
-                                    </a>
-                                    <div class="nk-product-cont">
-                                        <h3 class="nk-product-title h5"><a
-                                                href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
-                                        <div class="nk-gap-1"></div>
-                                        <div>
-                                            <div class="nk-product-rating"
-                                                 data-rating="{% article_rating a.id %}"></div>
-                                            ({% user_reviews_number a.id %})
+                            {% if not a.name.isnumeric %}
+                                <div class="col-lg-6">
+                                    <div class="nk-product-cat-2">
+                                        <a class="nk-product-image" href="{% url 'article_details' a.id %}">
+                                            <img src="{% item_img_path a.items_in_article.all.0.id %}" alt="{{ a.name }}">
+                                        </a>
+                                        <div class="nk-product-cont">
+                                            <h3 class="nk-product-title h5"><a
+                                                    href="{% url 'article_details' a.id %}">{{ a.name }}</a></h3>
+                                            <div class="nk-gap-1"></div>
+                                            <div>
+                                                <div class="nk-product-rating"
+                                                     data-rating="{% article_rating a.id %}"></div>
+                                                ({% user_reviews_number a.id %})
+                                            </div>
+                                            <div class="nk-gap-1"></div>
+                                            {{ a.description|make_list|slice:':140'|join:'' }}
+                                            {% if a.description|length > 140 %}
+                                                (...){% endif %}
+                                            <div class="nk-gap-2"></div>
+                                            <div class="nk-product-price">{{ a.total_price }} €</div>
+                                            <div class="nk-gap-1"></div>
+                                            <form action="." method="post">
+                                            {% csrf_token %}
+                                            <div class="nk-gap-1"></div>
+                                            {% if not user.id == user2.id %}
+                                                <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 ">Add to
+                                                    Cart</a>
+                                            {% endif %}
+                                                <a href="{% url 'edit_article' a.id %}"><button type="button" class="btn btn-secondary mt-2">Edit</button></a>
+                                                <button type="submit" class="btn btn-secondary mt-2" name="del" value={{a.id}} >Delete</button>
+                                            </form>
                                         </div>
-                                        <div class="nk-gap-1"></div>
-                                        {{ a.description|make_list|slice:':140'|join:'' }}
-                                        {% if a.description|length > 140 %}
-                                            (...){% endif %}
-                                        <div class="nk-gap-2"></div>
-                                        <div class="nk-product-price">{{ a.total_price }} €</div>
-                                        <div class="nk-gap-1"></div>
-                                        <form action="." method="post">
-                                        {% csrf_token %}
-                                        <div class="nk-gap-1"></div>
-                                        {% if not user.id == user2.id %}
-                                            <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 ">Add to
-                                                Cart</a>
-                                        {% endif %}
-                                            <a href="{% url 'edit_article' a.id %}"><button type="button" class="btn btn-secondary mt-2">Edit</button></a>
-                                            <button type="submit" class="btn btn-secondary mt-2" name="del" value={{a.id}} >Delete</button>
-                                        </form>
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 {% else %}
