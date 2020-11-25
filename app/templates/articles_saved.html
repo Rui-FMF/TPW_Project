@@ -11,53 +11,63 @@
             <div class="nk-gap-2"></div>
 
             <!-- START: Products Filter -->
-            <div class="row vertical-gap">
-                <div class="col-lg-8">
-                    <div class="row vertical-gap">
-                        <div class="col-md-4">
-                            <select class="form-control">
-                                <option value="" disabled="" selected="">Select Condition</option>
-                                {% for c in conditions %}
-                                    <option value="{{ c.0 }}" {% if form.condition == c.0 %}selected{% endif %}>{{ c.1 }}</option>
-                                {% endfor %}
-                            </select>
+            <form action="." method="get">
+                <div class="row vertical-gap">
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <input name="search" type="text" class="form-control" placeholder="Type something...">
+                            <button type="submit" class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span>
+                            </button>
                         </div>
-                    {{ form.condition }}
-                        <div class="col-md-8">
-                            <div class="nk-input-slider-inline">
-                                <div class="nk-input-slider">
-                                    <div class="nk-input-slider-content text-white">
-                                        PRICE:
-                                        <strong class="text-main-1">€ <span
-                                                class="nk-input-slider-value-0">200</span></strong>
-                                        -
-                                        <strong class="text-main-1">€ <span class="nk-input-slider-value-1">1275</span></strong>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row vertical-gap">
+                            <div class="col-md-4">
+                                <select name="condition" class="form-control">
+                                    <option value="" disabled="" selected="">Select Condition</option>
+                                    {% for c in conditions %}
+                                        <option value="{{ c.0 }}"
+                                                {% if form.condition == c.0 %}selected{% endif %}>{{ c.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="nk-input-slider-inline">
+                                    <div class="nk-input-slider">
+                                        <div class="nk-input-slider-content text-white">
+                                            PRICE:
+                                            <strong class="text-main-1"><span
+                                                    class="nk-input-slider-value-0">200</span> €</strong>
+                                            -
+                                            <strong class="text-main-1"><span
+                                                    class="nk-input-slider-value-1">1200</span> €</strong>
+                                        </div>
+                                        <div class="nk-input-slider-input">
+                                            <input type="text" name="price" data-slider-min="0"
+                                                   data-slider-max="1800" data-slider-step="1"
+                                                   data-slider-tooltip="hide"
+                                                   data-slider-value="[{{ form.price.0 }}, {{ form.price.1 }}]"
+                                                   data-value="{{ form.price.0 }},{{ form.price.1 }}"
+                                                   value="{{ form.price.0 }},{{ form.price.1 }}" style="display: none;">
+                                        </div>
                                     </div>
-                                    <div class="nk-input-slider-input">
-                                        <input type="text" name="price-filter" data-slider-min="0"
-                                               data-slider-max="1800" data-slider-step="1"
-                                               data-slider-tooltip="hide"
-                                               data-slider-value="[{{ form.price.0 }}, {{ form.price.1 }}]"
-                                               data-value="{{ form.price.0 }},{{ form.price.1 }}"
-                                               value="{{ form.price.0 }},{{ form.price.1 }}" style="display: none;">
-                                    </div>
-                                </div>
-                                <div>
-                                    <a href="#" class="nk-btn nk-btn-rounded nk-btn-color-white">Apply</a>
+
                                 </div>
                             </div>
                         </div>
+                      <div class="float-right my-3">
+                                        <button type="submit" class="mx-2 d-inline nk-btn nk-btn-rounded nk-btn-color-white">Apply
+                                        </button>
+                                        <a href="{{ request.path }}"
+                                           class="mx-2 d-inline nk-btn nk-btn-rounded nk-btn-lg nk-btn-color-dark-3 w-100">
+                                            Clear
+                                        </a>
+                                    </div>
+                    <div class="clearfix"></div>
                     </div>
+
                 </div>
-                <div class="col-lg-4">
-                    <form action="#" class="nk-form" novalidate="novalidate">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Type something...">
-                            <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </form>
             <div class="nk-gap-2"></div>
             <!-- END: Products Filter -->
 
@@ -85,8 +95,14 @@
                                 <div class="nk-gap-1"></div>
                                 <form action="." method="post">
                                     {% csrf_token %}
-                                    <button type="submit" name="add_cart" class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px" value={{a.id}} >Add to Cart</button>
-                                    <button type="submit" class="nk-btn nk-btn-rounded nk-btn-color-danger nk-btn-hover-color-main-1" name="del" value={{a.id}} >Remove</button>
+                                    <button type="submit" name="add_cart"
+                                            class="nk-btn nk-btn-rounded nk-btn-color-main-1" style="margin-left: 20px"
+                                            value={{ a.id }}>Add to Cart
+                                    </button>
+                                    <button type="submit"
+                                            class="nk-btn nk-btn-rounded nk-btn-color-danger nk-btn-hover-color-main-1"
+                                            name="del" value={{ a.id }}>Remove
+                                    </button>
                                 </form>
                             </div>
                         </div>
